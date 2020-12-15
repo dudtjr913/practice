@@ -11,3 +11,5 @@
 
 
 ### 항상 생각하는 건데 결과에 너무 연연하지 말자.
+
+### [My velog](https://velog.io/@dudtjr913)
