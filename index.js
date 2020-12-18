@@ -1,52 +1,29 @@
-const $subway = document.body.querySelector('.sub');
-const $th = document.body.querySelectorAll('th');
-const $tbody = document.body.querySelector('tbody');
-const $tr = Array.from(document.body.querySelectorAll('button'));
+class Baseball {
+  constructor() {
+    this.answerNumbers = [];
+  }
 
-const arr = [];
-const deleted = (value) => {
-  const a = arr.filter((v) => v !== value);
-  localStorage.setItem('key', JSON.stringify(a));
-};
+  createAnswerNumbers() {
+    const answerNumbers = [];
+    const allNumbers = this.getAllNumbers(9);
 
-const make = (a) => {
-  const $trr = document.createElement('tr');
-  $trr.innerHTML = `
-<td>${a}</td>
-<td><button>삭제</button></td>
-`;
-  const $button = $trr.querySelector('button');
-  $button.dataset.subway = a;
-  $button.addEventListener('click', (e) => {
-    $tbody.removeChild(e.target.parentElement.parentElement);
-    deleted(e.target.dataset.subway);
-  });
+    while (answerNumbers.length < 4) {
+      const randomIndex = Math.floor(Math.random() * allNumbers.length);
+      const pickedNumber = allNumbers.splice(randomIndex, 1);
+      answerNumbers.push(...pickedNumber);
+    }
 
-  $tbody.appendChild($trr);
-  arr.push(a);
-  localStorage.setItem('key', JSON.stringify(arr));
-};
+    return (this.answerNumbers = answerNumbers);
+  }
 
-const subway = $tr.map((v) => v.dataset.subway);
+  getAllNumbers(length) {
+    const allNumbers = Array(length)
+      .fill()
+      .map((_, i) => i + 1);
 
-$subway.addEventListener('click', (e) => {
-  console.log(e.target.parentElement.parentElement.dataset.subway);
-});
+    return allNumbers;
+  }
+}
 
-const $select = document.createElement('select');
-subway.forEach((v) => {
-  const $option = document.createElement('option');
-  $option.value = v;
-  $option.textContent = v;
-  $select.appendChild($option);
-});
-
-document.body.appendChild($select);
-
-const init = () => {
-  const aa = JSON.parse(localStorage.getItem('key'));
-
-  aa.forEach((v) => make(v));
-};
-
-init();
+const a = new Baseball();
+a.createAnswerNumbers();
