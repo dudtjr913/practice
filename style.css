@@ -1,3 +1,17 @@
-div#container p:nth-child(2) {
-  color: red;
+body {
+  margin: 0px;
+}
+
+#left {
+  float: left;
+  background-color: red;
+  width: 50%;
+  height: 100vh;
+}
+
+#right {
+  float: left;
+  background-color: blue;
+  width: 50%;
+  height: 100vh;
 }
