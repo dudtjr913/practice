@@ -26,17 +26,17 @@ const extractNumbersArray = () => {
 
 extractNumbersArray();
 
-const extractSkArray = (() => {
+const extractWantedKeys = (() => {
   const skArray = [];
 
-  return (data) => {
+  return (data, findValud) => {
     const nextData = data.filter((v) => v.childnode);
-    if (nextData !== []) {
-      data.forEach((key) => {
-        if (key.type === "sk") {
+    if (nextData.length > 0) {
+      nextData.forEach((key) => {
+        if (key.type === findValud) {
           skArray.push(key.name);
         }
-        extractSkArray(key.childnode);
+        extractWantedKeys(key.childnode, "sk");
       });
     }
 
@@ -44,4 +44,4 @@ const extractSkArray = (() => {
   };
 })();
 
-extractSkArray(dataTwo);
+console.log(extractWantedKeys(dataTwo, "sk"));
