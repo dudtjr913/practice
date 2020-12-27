@@ -26,40 +26,22 @@ const extractNumbersArray = () => {
 
 extractNumbersArray();
 
-const extractSkArray = () => {
+const extractSkArray = (() => {
   const skArray = [];
-  dataTwo.forEach((one) => {
-    if (one.type === "sk") {
-      skArray.push(one.name);
-    }
-    one.childnode.forEach((two) => {
-      if (two.type === "sk") {
-        skArray.push(two.name);
-      }
-      two.childnode.forEach((three) => {
-        if (three.type === "sk") {
-          skArray.push(three.name);
+
+  return (data) => {
+    const nextData = data.filter((v) => v.childnode);
+    if (nextData !== []) {
+      data.forEach((key) => {
+        if (key.type === "sk") {
+          skArray.push(key.name);
         }
-        three.childnode.forEach((four) => {
-          if (four.type === "sk") {
-            skArray.push(four.name);
-          }
-          four.childnode.forEach((five) => {
-            if (five.type === "sk") {
-              skArray.push(five.name);
-            }
-            five.childnode.forEach((six) => {
-              if (six.type === "sk") {
-                skArray.push(six.name);
-              }
-            });
-          });
-        });
+        extractSkArray(key.childnode);
       });
-    });
-  });
+    }
 
-  console.log(skArray);
-};
+    return skArray;
+  };
+})();
 
-extractSkArray();
+extractSkArray(dataTwo);
