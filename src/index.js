@@ -1,4 +1,4 @@
-import { dataOne, dataTwo } from "./utils/constant.js";
+import {dataOne, dataTwo} from './utils/constant.js';
 
 console.log(Object.keys(dataOne)); // ["debug", "window", "image", "text"]
 console.log(Object.values(dataOne.window)); // ["Sample Konfabulator Widget", "main_window", 500, 500]
@@ -16,7 +16,7 @@ const extractNumbersArray = () => {
   for (const key in dataOne) {
     const keyArray = Object.keys(dataOne[key]);
     keyArray.forEach((v) => {
-      if (typeof dataOne[key][v] === "number") {
+      if (typeof dataOne[key][v] === 'number') {
         numbersArray.push(v);
       }
     });
@@ -36,7 +36,7 @@ const extractWantedKeys = (() => {
         if (key.type === findValud) {
           skArray.push(key.name);
         }
-        extractWantedKeys(key.childnode, "sk");
+        extractWantedKeys(key.childnode, 'sk');
       });
     }
 
@@ -44,4 +44,19 @@ const extractWantedKeys = (() => {
   };
 })();
 
-console.log(extractWantedKeys(dataTwo, "sk"));
+console.log(extractWantedKeys(dataTwo, 'sk'));
+
+const myReduce = (arr, callback, initialValue) => {
+  let next = initialValue ? initialValue : arr[0];
+  if (initialValue) {
+    arr.forEach((cur) => (next = callback(next, cur)));
+  } else {
+    for (let i = 1; i < arr.length; i++) {
+      next = callback(next, arr[i]);
+    }
+  }
+
+  return next;
+};
+
+console.log(myReduce([1, 3, 5, 7], (a, b) => a * b));
