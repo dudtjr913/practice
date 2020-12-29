@@ -1,4 +1,10 @@
-import {todoStatus} from './utils/constant.js';
+import {
+  todoStatus,
+  todoErrorMessage,
+  NAME,
+  ALL,
+  STRING,
+} from './utils/constant.js';
 import {generateId, isValueExist, getExValue} from './utils/utils.js';
 
 class TodoManagement {
@@ -7,13 +13,11 @@ class TodoManagement {
   }
 
   addTodo(todoName, tags, status) {
-    if (isValueExist(this.todosList, 'name', todoName)) {
-      return alert('이름이 중복됩니다.');
+    if (isValueExist(this.todosList, NAME, todoName)) {
+      return alert(todoErrorMessage.EXIST_NAME);
     }
     if (!Array.isArray(tags) || !todoStatus.includes(status)) {
-      return alert(
-        'tags는 배열로, status는 todo, doing, done중에서 입력해주세요.',
-      );
+      return alert(todoErrorMessage.WRONG_VALUE);
     }
     const todoId = generateId(this.todosList);
     const todoObj = {
@@ -28,7 +32,7 @@ class TodoManagement {
   }
 
   removeTodo(todoName) {
-    const exTodo = getExValue(this.todosList, 'name', todoName);
+    const exTodo = getExValue(this.todosList, NAME, todoName);
     if (!exTodo) {
       return;
     }
@@ -39,57 +43,55 @@ class TodoManagement {
   }
 
   todoStatusUpdate(todoName, status) {
-    const exTodo = getExValue(this.todosList, 'name', todoName);
+    const exTodo = getExValue(this.todosList, NAME, todoName);
     if (!exTodo) {
       return;
     }
 
     if (exTodo.status === status || !todoStatus.includes(status)) {
-      return alert(
-        '상태가 기존과 동일하거나 todo, doing, done 중에 입력되지 않았습니다.',
-      );
+      return alert(todoErrorMessage.WRONG_STATUS);
     }
 
     return (exTodo.status = status);
   }
 
   addTags(todoName, tagName) {
-    const exTodo = getExValue(this.todosList, 'name', todoName);
+    const exTodo = getExValue(this.todosList, NAME, todoName);
     if (!exTodo) {
       return;
     }
 
-    if (typeof tagName === 'string') {
+    if (typeof tagName === STRING) {
       return exTodo.tags.push(tagName);
     }
     if (Array.isArray(tagName)) {
       return (exTodo.tags = [...exTodo.tags, ...tagName]);
     }
 
-    return alert('문자열이나 배열로 입력해주세요.');
+    return alert(todoErrorMessage.WRONG_TAGS);
   }
 
   removeTag(todoName, tagName) {
-    const exTodo = getExValue(this.todosList, 'name', todoName);
+    const exTodo = getExValue(this.todosList, NAME, todoName);
     if (!exTodo) {
       return;
     }
-    if (typeof tagName !== 'string') {
-      return alert('한 개의 단어를 입력해주세요.');
+    if (typeof tagName !== STRING) {
+      return alert(todoErrorMessage.NOT_WORD);
     }
     const exTagIndex = exTodo.tags.findIndex((tag) => tag === tagName);
     if (exTagIndex === -1) {
-      return alert('존재하지 않는 태그입니다.');
+      return alert(todoErrorMessage.NOT_HAVING_TAG);
     }
 
     return exTodo.tags.splice(exTagIndex, 1);
   }
 
   changeTodoName(todoName, changeName) {
-    if (isValueExist(this.todosList, 'name', todoName)) {
-      return alert('변경하려는 이름이 중복됩니다.');
+    if (isValueExist(this.todosList, NAME, todoName)) {
+      return alert(todoErrorMessage.EXIST_NAME);
     }
-    const exTodo = getExValue(this.todosList, 'name', todoName);
+    const exTodo = getExValue(this.todosList, NAME, todoName);
     if (!exTodo) {
       return;
     }
@@ -100,10 +102,10 @@ class TodoManagement {
 
 class Todo extends TodoManagement {
   show(status) {
-    if (!['all', ...todoStatus].includes(status)) {
-      return alert('all, todo, doing, done중에서 입력해주세요.');
+    if (![ALL, ...todoStatus].includes(status)) {
+      return alert(todoErrorMessage.WRONG_SHOW_STATUS);
     }
-    if (status === 'all') {
+    if (status === ALL) {
       return this.showAll();
     }
 

@@ -120,3 +120,19 @@ export const dataTwo = [
 ];
 
 export const todoStatus = ['todo', 'doing', 'done'];
+
+export const todoErrorMessage = {
+  EXIST_NAME: '중복되는 이름이 존재합니다.',
+  WRONG_VALUE: 'tags는 배열로, status는 todo, doing, done중에서 입력해주세요.',
+  WRONG_STATUS:
+    '상태가 기존과 동일하거나 todo, doing, done 중에 입력되지 않았습니다.',
+  WRONG_TAGS: '문자열이나 배열로 입력해주세요.',
+  NOT_WORD: '한 개의 단어를 입력해주세요.',
+  NOT_HAVING_TAG: '존재하지 않는 태그입니다.',
+  WRONG_SHOW_STATUS: 'all, todo, doing, done중에서 입력해주세요.',
+  NOT_HAVING_VALUE: '존재하지 않는 값입니다.',
+};
+
+export const NAME = 'name';
+export const STRING = 'string';
+export const ALL = 'all';
