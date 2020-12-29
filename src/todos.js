@@ -135,7 +135,22 @@ f 상태 업데이트 todoStatusUpdate(todoName, status){
     
     변경할 할 일.status = status
 }
+*/
+const todoStatusUpdate = (todoName, status) => {
+  const exTodo = todosList.find((key) => key.name.trim() === todoName.trim());
+  if (!exTodo) {
+    return alert('존재하지 않는 이름입니다.');
+  }
+  if (exTodo.status === status || !['todo', 'doing', 'done'].includes(status)) {
+    return alert(
+      '상태가 기존과 동일하거나 todo, doing, done 중에 입력되지 않았습니다.',
+    );
+  }
 
+  return (exTodo.status = status);
+};
+
+/*
 // 태그 추가
 f 태그 추가 addTags(todoName, tagName){
   // find 메소드를 통해 태그를 추가할 todo를 찾는다
