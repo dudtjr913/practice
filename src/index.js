@@ -46,17 +46,17 @@ const extractWantedKeys = (() => {
 
 console.log(extractWantedKeys(dataTwo, 'sk'));
 
-const myReduce = (arr, callback, initialValue) => {
-  let next = initialValue ? initialValue : arr[0];
+Array.prototype.myReduce = function (callback, initialValue) {
+  let acc = initialValue ? initialValue : this[0];
   if (initialValue) {
-    arr.forEach((cur) => (next = callback(next, cur)));
+    this.forEach((cur) => (acc = callback(acc, cur)));
   } else {
-    for (let i = 1; i < arr.length; i++) {
-      next = callback(next, arr[i]);
+    for (let i = 1; i < this.length; i++) {
+      acc = callback(acc, this[i]);
     }
   }
 
-  return next;
+  return acc;
 };
 
-console.log(myReduce([1, 3, 5, 7], (a, b) => a * b));
+console.log([1, 2, 3, 4, 5].myReduce((a, b) => a + b));

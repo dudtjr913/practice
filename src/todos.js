@@ -117,4 +117,44 @@ f 이름 변경 changeTodoName(todoName, changeName){
     
     return 할 일.name = changeName
 }
+
+// 할 일 보여주기 클래스
+// 상태 보여주기
+f 상태 보여주기 show(status){
+  // 매개변수로 받은 status에 맞는 리스트를 보여준다
+  // all이 입력된다면 모든 리스트의 총 합을 보여준다
+
+  if(status === 'all'){
+    return 모든 상태의 할 일 보여주기 메소드 호출
+  }
+  return 상태에 맞는 할 일 보여주기 메소드 호출(status)
+}
+
+// 모든 상태의 할 일 보여주기
+f 모든 상태의 할 일 보여주기 showAll(){
+  // 모든 할 일의 상태의 합을 보여준다.
+  // 현재상태 : todo:1개, doing:2개, done:4개와 같은 형태로 보여준다.
+
+  const 상태 object = {};
+  this.todosList.forEach((key) => {
+    if(status가 상태 object에 존재하면 status +1){
+     return 상태 object.status =+ 1
+    } 
+    존재하지 않으면 추가
+    return 상태 object.status = 1
+  })
+  
+  상태 object를 보여주기 위한 형태로 변경
+  Object.entries를 사용해 array로 변경 후 return
+}
+
+// 상태에 맞는 할 일 보여주기
+f 상태에 맞는 할 일 보여주기 showSelectedStatus(status){
+  // 매개변수 status에 맞는 할 일 목록을 보여준다.
+  // status가 todo일 때, todo리스트 : 총2건 : '자바스크립트 공부하기', 'ios공부하기'와 같은 형태로 보여준다.
+
+  const 상태에 맞는 할 일 목록 : 이름 = this.todosList.map으로 할당
+  
+  상태에 맞는 할 일 목록에서 총 길이와 join메소드를 사용해 보여주기 return
+}
 */
