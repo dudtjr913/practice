@@ -94,7 +94,7 @@ const generateId = () => {
 
 /*
 // 할 일 삭제
-f 할 일 삭제 removeTodo(name){
+f 할 일 삭제 removeTodo(todoName){
     // todosList에서 매개변수와 같은 이름을 찾는다
     // 없으면 error, 존재하면 삭제
 
@@ -105,7 +105,20 @@ f 할 일 삭제 removeTodo(name){
    
    todosList에서 splice로 삭제
 }
+*/
 
+const removeTodo = (todoName) => {
+  const exNameIndex = todosList.findIndex(
+    (key) => key.name.trim() === todoName.trim(),
+  );
+  if (exNameIndex === -1) {
+    return alert('존재하지 않는 이름입니다.');
+  }
+
+  return todosList.splice(exNameIndex, 1);
+};
+
+/*
 // 상태 업데이트
 f 상태 업데이트 todoStatusUpdate(todoName, status){
     // find 메소드를 통해 상태를 변경할 todo를 찾는다
