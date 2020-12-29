@@ -1,18 +1,21 @@
+import {todoStatus} from './utils/constant.js';
+import {generateId, isValueExist, getExValue} from './utils/utils.js';
+
 class TodoManagement {
   constructor() {
     this.todosList = [];
   }
 
   addTodo(todoName, tags, status) {
-    if (this.isNameExist(todoName)) {
+    if (isValueExist(this.todosList, 'name', todoName)) {
       return alert('이름이 중복됩니다.');
     }
-    if (!Array.isArray(tags) || !['todo', 'doing', 'done'].includes(status)) {
+    if (!Array.isArray(tags) || !todoStatus.includes(status)) {
       return alert(
         'tags는 배열로, status는 todo, doing, done중에서 입력해주세요.',
       );
     }
-    const todoId = this.generateId();
+    const todoId = generateId(this.todosList);
     const todoObj = {
       name: todoName,
       tags,
@@ -25,48 +28,23 @@ class TodoManagement {
   }
 
   removeTodo(todoName) {
-    const exNameIndex = this.todosList.findIndex(
-      (key) => key.name.trim() === todoName.trim(),
-    );
-    if (exNameIndex === -1) {
-      return alert('존재하지 않는 이름입니다.');
+    const exTodo = getExValue(this.todosList, 'name', todoName);
+    if (!exTodo) {
+      return;
     }
 
-    return this.todosList.splice(exNameIndex, 1);
-  }
-
-  isNameExist(todoName) {
-    const exName = this.todosList.find(
-      (key) => key.name.trim() === todoName.trim(),
-    );
-    if (exName) {
-      return true;
-    }
-
-    return false;
-  }
-
-  generateId() {
-    const todoId = Math.floor(Math.random() * 999999);
-    const exId = this.todosList.find((key) => key.id === todoId);
-    if (exId) {
-      return this.generateId();
-    }
-
-    return todoId;
+    return (this.todosList = this.todosList.filter(
+      (key) => key.name !== todoName,
+    ));
   }
 
   todoStatusUpdate(todoName, status) {
-    const exTodo = this.todosList.find(
-      (key) => key.name.trim() === todoName.trim(),
-    );
+    const exTodo = getExValue(this.todosList, 'name', todoName);
     if (!exTodo) {
-      return alert('존재하지 않는 이름입니다.');
+      return;
     }
-    if (
-      exTodo.status === status ||
-      !['todo', 'doing', 'done'].includes(status)
-    ) {
+
+    if (exTodo.status === status || !todoStatus.includes(status)) {
       return alert(
         '상태가 기존과 동일하거나 todo, doing, done 중에 입력되지 않았습니다.',
       );
@@ -76,12 +54,11 @@ class TodoManagement {
   }
 
   addTags(todoName, tagName) {
-    const exTodo = this.todosList.find(
-      (key) => key.name.trim() === todoName.trim(),
-    );
+    const exTodo = getExValue(this.todosList, 'name', todoName);
     if (!exTodo) {
-      return alert('존재하지 않는 이름입니다.');
+      return;
     }
+
     if (typeof tagName === 'string') {
       return exTodo.tags.push(tagName);
     }
@@ -92,12 +69,13 @@ class TodoManagement {
     return alert('문자열이나 배열로 입력해주세요.');
   }
 
-  removeTags(todoName, tagName) {
-    const exTodo = this.todosList.find(
-      (key) => key.name.trim() === todoName.trim(),
-    );
+  removeTag(todoName, tagName) {
+    const exTodo = getExValue(this.todosList, 'name', todoName);
     if (!exTodo) {
-      return alert('존재하지 않는 이름입니다.');
+      return;
+    }
+    if (typeof tagName !== 'string') {
+      return alert('한 개의 단어를 입력해주세요.');
     }
     const exTagIndex = exTodo.tags.findIndex((tag) => tag === tagName);
     if (exTagIndex === -1) {
@@ -108,14 +86,12 @@ class TodoManagement {
   }
 
   changeTodoName(todoName, changeName) {
-    if (this.isNameExist(changeName)) {
+    if (isValueExist(this.todosList, 'name', todoName)) {
       return alert('변경하려는 이름이 중복됩니다.');
     }
-    const exTodo = this.todosList.find(
-      (key) => key.name.trim() === todoName.trim(),
-    );
+    const exTodo = getExValue(this.todosList, 'name', todoName);
     if (!exTodo) {
-      return alert('존재하지 않는 이름입니다.');
+      return;
     }
 
     return (exTodo.name = changeName);
@@ -124,7 +100,7 @@ class TodoManagement {
 
 class Todo extends TodoManagement {
   show(status) {
-    if (!['all', 'todo', 'doing', 'done'].includes(status)) {
+    if (!['all', ...todoStatus].includes(status)) {
       return alert('all, todo, doing, done중에서 입력해주세요.');
     }
     if (status === 'all') {
@@ -165,9 +141,10 @@ class Todo extends TodoManagement {
 
 const todo = new Todo();
 todo.addTodo('그림 그리기', ['paint'], 'todo');
-todo.removeTodo('그림 그리기');
+todo.addTodo('코딩 공부하기', ['javascript', 'code', 'vanila'], 'done');
 todo.addTags('그림 그리기', '어허허');
-console.log(todo.show('done'));
+todo.removeTag('그림 그리기', 'paint');
+console.log(todo.todosList);
 
 /* 
 // 할 일 관리 클래스
@@ -263,7 +240,7 @@ f 태그 추가 addTags(todoName, tagName){
 
 /*
 // 태그 삭제
-f 태그 삭제 removeTags(todoName, tagName){
+f 태그 삭제 removeTag(todoName, tagName){
   // find 메소드를 통해 태그를 삭제할 todo를 찾는다
   // 없으면 error, 존재하면 tags에 tagName이 존재하는지 확인
   // tagName이 존재하지 않으면 error, 존재하면 삭제
