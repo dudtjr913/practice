@@ -232,7 +232,20 @@ f 이름 변경 changeTodoName(todoName, changeName){
     
     return 할 일.name = changeName
 }
+*/
+const changeTodoName = (todoName, changeName) => {
+  if (isNameExist(changeName)) {
+    return alert('변경하려는 이름이 중복됩니다.');
+  }
+  const exTodo = todosList.find((key) => key.name.trim() === todoName.trim());
+  if (!exTodo) {
+    return alert('존재하지 않는 이름입니다.');
+  }
 
+  return (exTodo.name = changeName);
+};
+
+/*
 // 할 일 보여주기 클래스
 // 상태 보여주기
 f 상태 보여주기 show(status){
