@@ -201,7 +201,21 @@ f 태그 삭제 removeTags(todoName, tagName){
 
     return 할 일.tags.splice를 사용해 태그 삭제
 }
+*/
+const removeTags = (todoName, tagName) => {
+  const exTodo = todosList.find((key) => key.name.trim() === todoName.trim());
+  if (!exTodo) {
+    return alert('존재하지 않는 이름입니다.');
+  }
+  const exTagIndex = exTodo.tags.findIndex((tag) => tag === tagName);
+  if (exTagIndex === -1) {
+    return alert('존재하지 않는 태그입니다.');
+  }
 
+  return exTodo.tags.splice(exTagIndex, 1);
+};
+
+/*
 // 이름 변경
 f 이름 변경 changeTodoName(todoName, changeName){
   // 이름 중복 검사에 이상이 있으면 error, 없으면 넘어간다
