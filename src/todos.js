@@ -308,8 +308,18 @@ f 상태에 맞는 할 일 보여주기 showSelectedStatus(status){
   // 매개변수 status에 맞는 할 일 목록을 보여준다.
   // status가 todo일 때, todo리스트 : 총2건 : '자바스크립트 공부하기', 'ios공부하기'와 같은 형태로 보여준다.
 
-  const 상태에 맞는 할 일 목록 : 이름 = this.todosList.map으로 할당
+  const 상태에 맞는 할 일 목록 : 이름 = this.todosList.forEach로 push
   
   상태에 맞는 할 일 목록에서 총 길이와 join메소드를 사용해 보여주기 return
 }
 */
+const showSelectedStatus = (status) => {
+  const statusList = [];
+  todosList.forEach((key) => {
+    if (key.status === status) {
+      return statusList.push(key.name);
+    }
+  });
+
+  return `todo리스트 : 총${statusList.length}건 : ${statusList.join(', ')}`;
+};
