@@ -167,7 +167,23 @@ f 태그 추가 addTags(todoName, tagName){
         return tagName.forEach((name) => 변경할 할 일.tags.push(name))
     }
 }
+*/
+const addTags = (todoName, tagName) => {
+  const exTodo = todosList.find((key) => key.name.trim() === todoName.trim());
+  if (!exTodo) {
+    return alert('존재하지 않는 이름입니다.');
+  }
+  if (typeof tagName === 'string') {
+    return exTodo.tags.push(tagName);
+  }
+  if (Array.isArray(tagName)) {
+    return (exTodo.tags = [...exTodo.tags, ...tagName]);
+  }
 
+  return alert('문자열이나 배열로 입력해주세요.');
+};
+
+/*
 // 태그 삭제
 f 태그 삭제 removeTags(todoName, tagName){
   // find 메소드를 통해 태그를 삭제할 todo를 찾는다
