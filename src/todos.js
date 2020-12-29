@@ -35,7 +35,64 @@ f 할 일 입력 addTodo(todoName, tags, status){
 
   return todosList에 추가할 todo를 push
 }
+*/
 
+const todosList = [
+  {
+    'name': '자바스크립트 공부하기',
+    'tags': ['programming', 'javascript'],
+    'status': 'todo',
+    'id': 12123123,
+  },
+  {
+    'name': ' 그림 그리기',
+    'tags': ['picture', 'favorite'],
+    'status': 'doing',
+    'id': 312323,
+  },
+];
+
+const addTodo = (todoName, tags, status) => {
+  if (isNameExist(todoName)) {
+    return alert('이름이 중복됩니다.');
+  }
+  if (!Array.isArray(tags) || !['todo', 'doing', 'done'].includes(status)) {
+    return alert(
+      'tags는 배열로, status는 todo, doing, done중에서 입력해주세요.',
+    );
+  }
+  const todoId = generateId();
+  const todoObj = {
+    name: todoName,
+    tags,
+    status,
+    id: todoId,
+  };
+  todosList.push(todoObj);
+
+  return todoObj;
+};
+
+const isNameExist = (todoName) => {
+  const exName = todosList.find((key) => key.name.trim() === todoName.trim());
+  if (exName) {
+    return true;
+  }
+
+  return false;
+};
+
+const generateId = () => {
+  const todoId = Math.floor(Math.random() * 999999);
+  const exId = todosList.find((key) => key.id === todoId);
+  if (exId) {
+    return generateId();
+  }
+
+  return todoId;
+};
+
+/*
 // 할 일 삭제
 f 할 일 삭제 removeTodo(name){
     // todosList에서 매개변수와 같은 이름을 찾는다
