@@ -257,7 +257,16 @@ f 상태 보여주기 show(status){
   }
   return 상태에 맞는 할 일 보여주기 메소드 호출(status)
 }
+*/
+const show = (status) => {
+  if (status === 'all') {
+    return showAll();
+  }
 
+  return showSelectedStatus(status);
+};
+
+/*
 // 모든 상태의 할 일 보여주기
 f 모든 상태의 할 일 보여주기 showAll(){
   // 모든 할 일의 상태의 합을 보여준다.
@@ -275,7 +284,25 @@ f 모든 상태의 할 일 보여주기 showAll(){
   상태 object를 보여주기 위한 형태로 변경
   Object.entries를 사용해 array로 변경 후 return
 }
+*/
+const showAll = () => {
+  const allList = {};
+  todosList.forEach((key) => {
+    if (allList[key.status]) {
+      return allList[key.status]++;
+    }
+    return (allList[key.status] = 1);
+  });
 
+  const convertedResult = Object.entries(allList).map((v) => {
+    v[v.length - 1] += '개';
+    return v.join(':');
+  });
+
+  return convertedResult.join(', ');
+};
+
+/*
 // 상태에 맞는 할 일 보여주기
 f 상태에 맞는 할 일 보여주기 showSelectedStatus(status){
   // 매개변수 status에 맞는 할 일 목록을 보여준다.
