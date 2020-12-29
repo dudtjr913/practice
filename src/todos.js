@@ -259,6 +259,9 @@ f 상태 보여주기 show(status){
 }
 */
 const show = (status) => {
+  if (!['all', 'todo', 'doing', 'done'].includes(status)) {
+    return alert('all, todo, doing, done중에서 입력해주세요.');
+  }
   if (status === 'all') {
     return showAll();
   }
@@ -299,7 +302,7 @@ const showAll = () => {
     return v.join(':');
   });
 
-  return convertedResult.join(', ');
+  return `현재상태 : ${convertedResult.join(', ')}`;
 };
 
 /*
