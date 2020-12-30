@@ -5,7 +5,7 @@ import {
   ALL,
   STRING,
 } from './utils/constant.js';
-import {generateId, isValueExist, getExValue} from './utils/utils.js';
+import { generateId, isValueExist, getExValue } from './utils/utils.js';
 
 class TodoManagement {
   constructor() {
@@ -38,7 +38,7 @@ class TodoManagement {
     }
 
     return (this.todosList = this.todosList.filter(
-      (key) => key.name !== todoName,
+      (key) => key.name !== todoName
     ));
   }
 
@@ -98,9 +98,7 @@ class TodoManagement {
 
     return (exTodo.name = changeName);
   }
-}
 
-class Todo extends TodoManagement {
   show(status) {
     if (![ALL, ...todoStatus].includes(status)) {
       return alert(todoErrorMessage.WRONG_SHOW_STATUS);
@@ -141,12 +139,13 @@ class Todo extends TodoManagement {
   }
 }
 
-const todo = new Todo();
+const todo = new TodoManagement();
 todo.addTodo('그림 그리기', ['paint'], 'todo');
 todo.addTodo('코딩 공부하기', ['javascript', 'code', 'vanila'], 'done');
 todo.addTags('그림 그리기', '어허허');
 todo.removeTag('그림 그리기', 'paint');
 console.log(todo.todosList);
+console.log(todo.show('all'));
 
 /* 
 // 할 일 관리 클래스
