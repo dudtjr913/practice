@@ -1,4 +1,10 @@
-import {todoStatus, todoErrorMessage, NAME, ALL, STRING} from './utils/constant.js';
+import {
+  todoStatus,
+  todoErrorMessage,
+  NAME,
+  ALL,
+  STRING,
+} from './utils/constant.js';
 import {generateId, isValueExist, getExValue} from './utils/utils.js';
 
 const $canvas = document.querySelector('canvas');
@@ -34,7 +40,9 @@ class TodoManagement {
       return;
     }
 
-    return (this.todosList = this.todosList.filter((key) => key.name !== todoName));
+    return (this.todosList = this.todosList.filter(
+      (key) => key.name !== todoName,
+    ));
   }
 
   todoStatusUpdate(todoName, status) {
