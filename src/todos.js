@@ -1,12 +1,9 @@
-import {
-  todoStatus,
-  todoErrorMessage,
-  NAME,
-  ALL,
-  STRING,
-} from './utils/constant.js';
+import {todoStatus, todoErrorMessage, NAME, ALL, STRING} from './utils/constant.js';
 import {generateId, isValueExist, getExValue} from './utils/utils.js';
 
+const $canvas = document.querySelector('canvas');
+const context = $canvas.getContext('2d');
+console.log(context);
 class TodoManagement {
   constructor() {
     this.todosList = [];
@@ -37,9 +34,7 @@ class TodoManagement {
       return;
     }
 
-    return (this.todosList = this.todosList.filter(
-      (key) => key.name !== todoName,
-    ));
+    return (this.todosList = this.todosList.filter((key) => key.name !== todoName));
   }
 
   todoStatusUpdate(todoName, status) {
@@ -146,6 +141,7 @@ todo.addTodo('그림 그리기', ['paint'], 'todo');
 todo.addTodo('코딩 공부하기', ['javascript', 'code', 'vanila'], 'done');
 todo.addTags('그림 그리기', '어허허');
 todo.removeTag('그림 그리기', 'paint');
+console.log(todo.show('done'));
 console.log(todo.todosList);
 
 /* 

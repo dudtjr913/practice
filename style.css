@@ -25,3 +25,11 @@ footer {
   background-color: aqua;
   clear: left;
 }
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.9);
+  background-color: red;
+}
