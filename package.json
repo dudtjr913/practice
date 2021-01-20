@@ -4,7 +4,8 @@
   "description": "- 실력이 늘지 않는 것 같아도 조금씩 늘고 있다.\r - 급하다고 생각하지 말고 하나를 하더라도 제대로 하자.\r - 남들과 비교하지 말고 내 속도로 나아가자.\r - 기본에 항상 충실하자.\r - 항상 최선을 다하자.\r - 재사용을 기억하자.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "json-server --watch ./src/json/db.json"
   },
   "repository": {
     "type": "git",
