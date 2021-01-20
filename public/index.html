@@ -9,9 +9,9 @@
     <pre></pre>
     <script>
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/todos');
+      xhr.open('PUT', '/todos/10');
       xhr.setRequestHeader('content-type', 'application/json');
-      xhr.send(JSON.stringify({id: 10, content: 'Angular', completed: false}));
+      xhr.send(JSON.stringify({id: 10, content: 'React', completed: true}));
       xhr.onload = () => {
         if (xhr.status === 200 || xhr.status === 201) {
           document.querySelector('pre').textContent = xhr.response;

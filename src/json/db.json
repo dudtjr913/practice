@@ -29,8 +29,8 @@
     },
     {
       "id": 10,
-      "content": "Angular",
-      "completed": false
+      "content": "React",
+      "completed": true
     }
   ]
 }
