@@ -30,7 +30,7 @@
     {
       "id": 10,
       "content": "React",
-      "completed": true
+      "completed": false
     }
   ]
 }
