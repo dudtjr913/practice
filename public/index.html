@@ -9,9 +9,8 @@
     <pre></pre>
     <script>
       const xhr = new XMLHttpRequest();
-      xhr.open('PATCH', '/todos/10');
-      xhr.setRequestHeader('content-type', 'application/json');
-      xhr.send(JSON.stringify({completed: false}));
+      xhr.open('DELETE', '/todos/10');
+      xhr.send();
       xhr.onload = () => {
         if (xhr.status === 200 || xhr.status === 201) {
           document.querySelector('pre').textContent = xhr.response;
