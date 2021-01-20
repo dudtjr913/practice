@@ -9,7 +9,7 @@
     <pre></pre>
     <script>
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', '/todos');
+      xhr.open('GET', '/todos/1');
       xhr.send();
       xhr.onload = () => {
         if (xhr.status === 200) {
