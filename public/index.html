@@ -8,16 +8,25 @@
   <body>
     <pre></pre>
     <script>
-      const xhr = new XMLHttpRequest();
-      xhr.open('DELETE', '/todos/10');
-      xhr.send();
-      xhr.onload = () => {
-        if (xhr.status === 200 || xhr.status === 201) {
-          document.querySelector('pre').textContent = xhr.response;
-        } else {
-          console.error('Error', xhr.status, xhr.statusText);
-        }
+      const get = (url) => {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', url);
+          xhr.send();
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              resolve(JSON.parse(xhr.response));
+            } else {
+              reject('Error', xhr.status, xhr.statusText);
+            }
+          };
+        });
       };
+
+      get('https://jsonplaceholder.typicode.com/posts/1')
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err))
+        .finally(() => console.log('Bye'));
     </script>
   </body>
 </html>
