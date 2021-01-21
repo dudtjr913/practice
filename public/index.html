@@ -8,18 +8,66 @@
   <body>
     <pre></pre>
     <script>
-      const requestData1 = () => {
-        return new Promise((resolve) => setTimeout(() => resolve(1), 3000));
-      };
-      const requestData2 = () => {
-        return new Promise((resolve) => setTimeout(() => resolve(2), 2000));
-      };
-      const requestData3 = () => {
-        return new Promise((resolve) => setTimeout(() => resolve(3), 1000));
+      const fetchPra = {
+        get(url) {
+          return fetch(url);
+        },
+
+        post(url, payload) {
+          return fetch(url, {
+            method: 'POST',
+            headers: {'content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+          });
+        },
+
+        patch(url, payload) {
+          return fetch(url, {
+            method: 'PATCH',
+            headers: {'content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+          });
+        },
+
+        delete(url) {
+          return fetch(url, {method: 'DELETE'});
+        },
       };
 
-      const res = Promise.all([requestData1(), requestData2(), requestData3()])
-        .then((data) => console.log(data))
+      const todosUrl = 'https://jsonplaceholder.typicode.com/todos';
+
+      // GET요청
+      fetchPra
+        .get(`${todosUrl}/1`)
+        .then((response) => response.json())
+        .then(console.log)
+        .catch((error) => console.error(error));
+
+      // POST 요청
+      fetchPra
+        .post(todosUrl, {
+          userId: 1,
+          title: 'JavaScript',
+          completed: false,
+        })
+        .then((response) => response.json())
+        .then(console.log)
+        .catch((error) => console.error(error));
+
+      // PATCH 요청
+      fetchPra
+        .patch(`${todosUrl}/1`, {
+          userId: 103,
+        })
+        .then((response) => response.json())
+        .then(console.log)
+        .catch((error) => console.error(error));
+
+      // DELETE 요청
+      fetchPra
+        .delete(`${todosUrl}/1`)
+        .then((response) => response.json())
+        .then(console.log)
         .catch((error) => console.error(error));
     </script>
   </body>
