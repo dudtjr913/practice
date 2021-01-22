@@ -34,11 +34,11 @@
         },
       };
 
-      const todosUrl = 'https://jsonplaceholder.typicode.com/todos';
+      const todosUrl = '/todos';
 
       // GET요청
       fetchPra
-        .get(`${todosUrl}/1`)
+        .get(`${todosUrl}/2`)
         .then((response) => response.json())
         .then(console.log)
         .catch((error) => console.error(error));
@@ -56,7 +56,7 @@
 
       // PATCH 요청
       fetchPra
-        .patch(`${todosUrl}/1`, {
+        .patch(`${todosUrl}/2`, {
           userId: 103,
         })
         .then((response) => response.json())
@@ -65,7 +65,7 @@
 
       // DELETE 요청
       fetchPra
-        .delete(`${todosUrl}/1`)
+        .delete(`${todosUrl}/4`)
         .then((response) => response.json())
         .then(console.log)
         .catch((error) => console.error(error));
