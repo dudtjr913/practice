@@ -1,4 +1,4 @@
-function Person(name, age) {
+/* function Person(name, age) {
   this.name = name || '이름 모름';
   this.age = age || '나이 모름';
 }
@@ -55,3 +55,34 @@ const Employee = extendsClass(
 const yeong = new Employee('영석', 27, '프론트엔드 개발자');
 
 console.log(yeong.getInfo());
+ */
+
+function Book(kind, name) {
+  this.kind = kind;
+  this.name = name;
+}
+
+Book.prototype.getKind = function () {
+  return this.kind;
+};
+
+Book.prototype.getName = function () {
+  return this.name;
+};
+
+function JavaScript(kind, name, publisher) {
+  this.kind = kind;
+  this.name = name;
+  this.publisher = publisher;
+}
+
+function Bridge() {}
+Bridge.prototype = Book.prototype;
+JavaScript.prototype = new Bridge();
+JavaScript.prototype.constructor = JavaScript;
+JavaScript.prototype.getPublisher = function () {
+  return this.publisher;
+};
+
+const core = new JavaScript('자바스크립트', '코어 자바스크립트', '위키북스');
+console.log(core);
