@@ -30,15 +30,17 @@ function* createAnswerNumber(numberArray, count) {
 
     if (!answer.includes(randomNumber)) {
       answer.push(randomNumber);
-      yield answer;
+      yield randomNumber;
     }
   }
+
+  yield answer;
 }
 
 const answer = getAnswerNumber([1, 2, 3, 4, 5, 6, 7, 8, 9], 5);
 console.log(answer);
 
-function* infinity(startNum = 0) {
+/* function* infinity(startNum = 0) {
   while (true) yield startNum++;
 }
 
@@ -73,3 +75,4 @@ const func = (...rest) => {
 };
 
 log(func(...odds(3, 8)));
+ */
