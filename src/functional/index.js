@@ -35,5 +35,5 @@ function* createAnswerNumber(numberArray, count) {
   }
 }
 
-const answer = getAnswerNumber([1, 2, 3, 4, 5], 5);
+const answer = getAnswerNumber([1, 2, 3, 4, 5, 6, 7, 8, 9], 5);
 console.log(answer);
