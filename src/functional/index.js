@@ -37,3 +37,39 @@ function* createAnswerNumber(numberArray, count) {
 
 const answer = getAnswerNumber([1, 2, 3, 4, 5, 6, 7, 8, 9], 5);
 console.log(answer);
+
+function* infinity(startNum = 0) {
+  while (true) yield startNum++;
+}
+
+function* limit(iterator, finishNum) {
+  for (const num of iterator) {
+    yield num;
+    if (finishNum === num) return;
+  }
+}
+
+function* odds(startNum, finishNum) {
+  for (const num of limit(infinity(startNum))) {
+    if (num % 2) yield num;
+    if (num === finishNum) return;
+  }
+}
+
+log(...odds(3, 8));
+log([...odds(3, 8), ...odds(9, 20)]);
+
+const [head, ...tail] = odds(3, 12);
+log(head);
+log(tail);
+
+const [first, second, ...rest] = odds(3, 12);
+log(first);
+log(second);
+log(rest);
+
+const func = (...rest) => {
+  return rest;
+};
+
+log(func(...odds(3, 8)));
