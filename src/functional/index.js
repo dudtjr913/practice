@@ -1,6 +1,6 @@
 const log = console.log;
 
-const getAnswerNumber = (numberArray, count) => {
+/* const getAnswerNumber = (numberArray, count) => {
   for (const answerNumber of createAnswerNumber(numberArray, count)) {
     if (answerNumber.length === count) {
       return answerNumber;
@@ -38,7 +38,7 @@ function* createAnswerNumber(numberArray, count) {
 }
 
 const answer = getAnswerNumber([1, 2, 3, 4, 5, 6, 7, 8, 9], 5);
-console.log(answer);
+console.log(answer); */
 
 /* function* infinity(startNum = 0) {
   while (true) yield startNum++;
@@ -76,3 +76,28 @@ const func = (...rest) => {
 
 log(func(...odds(3, 8)));
  */
+
+const products = [
+  {name: '사과', price: 5000},
+  {name: '배', price: 6000},
+  {name: '오렌지', price: 4000},
+  {name: '키위', price: 8000},
+  {name: '귤', price: 3000},
+  {name: '바나나', price: 2000},
+];
+
+const nameArray = [];
+for (const value of products) {
+  nameArray.push(value.name);
+}
+
+const map = (f, iterable) => {
+  const res = [];
+  for (const value of iterable) {
+    res.push(f(value));
+  }
+
+  return res;
+};
+
+log(map((v) => v.price, products));
