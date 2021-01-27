@@ -77,33 +77,6 @@ const func = (...rest) => {
 log(func(...odds(3, 8)));
  */
 
-const products = [
-  {name: '사과', price: 5000},
-  {name: '배', price: 6000},
-  {name: '오렌지', price: 4000},
-  {name: '키위', price: 8000},
-  {name: '귤', price: 3000},
-  {name: '바나나', price: 2000},
-];
-
-const $elem = document.querySelectorAll('*');
-
-const mapObject = new Map();
-mapObject.set('a', 10);
-mapObject.set('b', 20);
-
-function* gen() {
-  yield 1;
-  yield 2;
-  yield 3;
-  return 100;
-}
-
-const nameArray = [];
-for (const value of products) {
-  nameArray.push(value.name);
-}
-
 const map = (f, iter) => {
   const res = [];
   for (const value of iter) {
@@ -113,11 +86,6 @@ const map = (f, iter) => {
   return res;
 };
 
-log(map((v) => v.price, products));
-log(map((v) => v.nodeName, $elem));
-log(map((v) => v * v, gen()));
-log(new Map(map(([key, value]) => [key, value * 2], mapObject)));
-
 const filter = (f, iter) => {
   const res = [];
   for (const v of iter) {
@@ -126,26 +94,6 @@ const filter = (f, iter) => {
 
   return res;
 };
-
-log(...filter((v) => v.price < 5000, products));
-log(filter((v) => v % 2, [1, 2, 3, 4]));
-log(
-  filter(
-    (v) => v % 2,
-    (function* () {
-      yield 1;
-      yield 2;
-      yield 3;
-      yield 4;
-      yield 5;
-    })(),
-  ),
-);
-
-const value = [1, 2, 3, 4, 5];
-const add = (a, b) => a + b;
-
-log(add(add(add(add(add(0, 1), 2), 3), 4), 5));
 
 const reduce = (f, acc, iter) => {
   if (!iter) {
@@ -160,15 +108,38 @@ const reduce = (f, acc, iter) => {
   return acc;
 };
 
-log(reduce((a, b) => a + b, 1, [2, 3, 4, 5]));
-log(reduce((total_price, product) => total_price + product.price, 0, products));
+const products = [
+  {name: '사과', price: 5000},
+  {name: '배', price: 6000},
+  {name: '오렌지', price: 4000},
+  {name: '키위', price: 8000},
+  {name: '귤', price: 3000},
+  {name: '바나나', price: 2000},
+];
+
 log(
   reduce(
-    (a, b) => a * b,
-    (function* () {
-      yield 1;
-      yield 3;
-      yield 5;
-    })(),
+    (acc, v) => acc + v,
+    0,
+    filter(
+      (price) => price < 5000,
+      map((product) => product.price, products),
+    ),
   ),
 );
+
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+let c = 30;
+const add = (a, b) => {
+  c = a;
+  return a + b;
+};
+
+log(c);
+log(add(10, 20));
+log(c);
