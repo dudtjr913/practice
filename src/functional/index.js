@@ -117,3 +117,27 @@ log(map((v) => v.price, products));
 log(map((v) => v.nodeName, $elem));
 log(map((v) => v * v, gen()));
 log(new Map(map(([key, value]) => [key, value * 2], mapObject)));
+
+const filter = (f, iter) => {
+  const res = [];
+  for (const v of iter) {
+    f(v) && res.push(v);
+  }
+
+  return res;
+};
+
+log(...filter((v) => v.price < 5000, products));
+log(filter((v) => v % 2, [1, 2, 3, 4]));
+log(
+  filter(
+    (v) => v % 2,
+    (function* () {
+      yield 1;
+      yield 2;
+      yield 3;
+      yield 4;
+      yield 5;
+    })(),
+  ),
+);
