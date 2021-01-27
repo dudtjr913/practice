@@ -86,14 +86,27 @@ const products = [
   {name: '바나나', price: 2000},
 ];
 
+const $elem = document.querySelectorAll('*');
+
+const mapObject = new Map();
+mapObject.set('a', 10);
+mapObject.set('b', 20);
+
+function* gen() {
+  yield 1;
+  yield 2;
+  yield 3;
+  return 100;
+}
+
 const nameArray = [];
 for (const value of products) {
   nameArray.push(value.name);
 }
 
-const map = (f, iterable) => {
+const map = (f, iter) => {
   const res = [];
-  for (const value of iterable) {
+  for (const value of iter) {
     res.push(f(value));
   }
 
@@ -101,3 +114,6 @@ const map = (f, iterable) => {
 };
 
 log(map((v) => v.price, products));
+log(map((v) => v.nodeName, $elem));
+log(map((v) => v * v, gen()));
+log(new Map(map(([key, value]) => [key, value * 2], mapObject)));
