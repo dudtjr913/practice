@@ -141,3 +141,34 @@ log(
     })(),
   ),
 );
+
+const value = [1, 2, 3, 4, 5];
+const add = (a, b) => a + b;
+
+log(add(add(add(add(add(0, 1), 2), 3), 4), 5));
+
+const reduce = (f, acc, iter) => {
+  if (!iter) {
+    iter = acc[Symbol.iterator]();
+    acc = iter.next().value;
+  }
+
+  for (const v of iter) {
+    acc = f(acc, v);
+  }
+
+  return acc;
+};
+
+log(reduce((a, b) => a + b, 1, [2, 3, 4, 5]));
+log(reduce((total_price, product) => total_price + product.price, 0, products));
+log(
+  reduce(
+    (a, b) => a * b,
+    (function* () {
+      yield 1;
+      yield 3;
+      yield 5;
+    })(),
+  ),
+);
