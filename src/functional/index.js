@@ -77,25 +77,28 @@ const func = (...rest) => {
 log(func(...odds(3, 8)));
  */
 
-const map = (f, iter) => {
+const curry = (f) => (a, ...args) =>
+  args.length ? f(a, ...args) : (...rest) => f(a, ...rest);
+
+const map = curry((f, iter) => {
   const res = [];
   for (const value of iter) {
     res.push(f(value));
   }
 
   return res;
-};
+});
 
-const filter = (f, iter) => {
+const filter = curry((f, iter) => {
   const res = [];
   for (const v of iter) {
     f(v) && res.push(v);
   }
 
   return res;
-};
+});
 
-const reduce = (f, acc, iter) => {
+const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
@@ -106,7 +109,7 @@ const reduce = (f, acc, iter) => {
   }
 
   return acc;
-};
+});
 
 const products = [
   {name: '사과', price: 5000},
@@ -143,3 +146,50 @@ const add = (a, b) => {
 log(c);
 log(add(10, 20));
 log(c);
+
+console.clear();
+const go = (param, ...args) => reduce((acc, f) => f(acc), param, args);
+
+go(
+  0,
+  (a) => a + 1,
+  (a) => a + 10,
+  (a) => a + 100,
+  log,
+);
+
+const pipe = (f, ...args) => (...param) => go(f(...param), ...args);
+
+pipe(
+  (a, b) => a + b,
+  (a) => a + 10,
+  (a) => a + 100,
+  log,
+)(0, 1);
+
+const addPrice = (total_price, price) => total_price + price;
+const total_price = pipe(
+  map((product) => product.price),
+  reduce(addPrice),
+);
+const getTotalPrice = (f) => pipe(filter(f), total_price);
+
+go(
+  products,
+  (products) => filter((product) => product.price < 5000, products),
+  (products) => map((product) => product.price, products),
+  (products) => reduce(addPrice, products),
+  log,
+);
+
+go(
+  products,
+  getTotalPrice((product) => product.price < 5000),
+  log,
+);
+
+go(
+  products,
+  getTotalPrice((product) => product.price >= 5000),
+  log,
+);
