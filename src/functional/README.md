@@ -181,3 +181,55 @@ go(
 
 함수형 프로그래밍은 이처럼 `함수들의 조합`으로 `고차 함수`를 만들고, 잘게 나뉜 함수들을 계속해서 `더 잘게 나누고`,<br>
 결국 중복을 없애 `재사용성`을 높이는 것이 특징이다.
+
+# 응용
+주어진 값을 활용해 다양하게 응용을 해보자.
+```javascript
+const products = [
+  {name: '반팔티', price: 15000, quantity: 1},
+  {name: '긴팔티', price: 20000, quantity: 2},
+  {name: '핸드폰케이스', price: 15000, quantity: 3},
+  {name: '후드티', price: 30000, quantity: 4},
+  {name: '바지', price: 25000, quantity: 5},
+];
+
+const add = (a, b) => a + b;
+
+// products의 총 수량
+const total_quantity = (products) =>
+  go(
+    products,
+    map((product) => product.quantity),
+    reduce(add),
+  );
+log(total_quantity(products)); // 15
+```
+go 함수를 사용해 총 수량을 값으로 얻을 수 있다. 하지만 함수형 프로그래밍이기에 만족하지 말고 더 생각해보자.
+```javascript
+const total_quantity = pipe(
+  map((product) => product.quantity),
+  reduce(add),
+);
+
+log(total_quantity(products)); // 15
+```
+앞서 사용했던 pipe 함수를 사용해 합성 함수로 만들어 가독성이 더 좋아졌다.<br>
+하지만 현재 `total_quantity`함수는 products에서만 사용할 수 있기 때문에 추상화를 더 해보면,
+```javascript
+const sum = (f, iter) => go(iter, map(f), reduce(add));
+const total_quantity = sum((product) => product.quantity, products);
+
+log(total_quantity); // 15
+```
+sum 함수를 만들어 어느 곳에서든 사용할 수 있게 만들었다. 
+`log(sum((a) => a, [1, 2, 3, 4])); // 10`
+이처럼 더하고 싶은 모든 곳에 사용될 수 있다.
+
+여기에서 만족할 수 있지만 마지막으로 한 번 더 가독성을 높여보자.
+```javascript
+const sum = curry((f, iter) => go(iter, map(f), reduce(add)));
+const total_quantity = sum((product) => product.quantity);
+
+log(total_quantity(products)); // 15
+```
+sum을 curry 함수로 묶어 최종적으로 마무리했다.
