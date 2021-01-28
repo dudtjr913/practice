@@ -120,13 +120,15 @@ const products = [
   {name: '바나나', price: 2000},
 ];
 
+const addPrice = (total_price, price) => total_price + price;
+
 log(
   reduce(
-    (acc, v) => acc + v,
+    addPrice,
     0,
-    filter(
-      (price) => price < 5000,
-      map((product) => product.price, products),
+    map(
+      (product) => product.price,
+      filter((product) => product.price < 5000, products),
     ),
   ),
 );
@@ -147,8 +149,7 @@ log(c);
 log(add(10, 20));
 log(c);
 
-console.clear();
-const go = (param, ...args) => reduce((acc, f) => f(acc), param, args);
+const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
 
 go(
   0,
@@ -158,7 +159,7 @@ go(
   log,
 );
 
-const pipe = (f, ...args) => (...param) => go(f(...param), ...args);
+const pipe = (f, ...fs) => (...param) => go(f(...param), ...fs);
 
 pipe(
   (a, b) => a + b,
@@ -167,18 +168,33 @@ pipe(
   log,
 )(0, 1);
 
-const addPrice = (total_price, price) => total_price + price;
 const total_price = pipe(
   map((product) => product.price),
   reduce(addPrice),
 );
 const getTotalPrice = (f) => pipe(filter(f), total_price);
 
+console.clear();
 go(
   products,
   (products) => filter((product) => product.price < 5000, products),
   (products) => map((product) => product.price, products),
-  (products) => reduce(addPrice, products),
+  (price) => reduce(addPrice, price),
+  log,
+);
+
+go(
+  products,
+  filter((product) => product.price < 5000),
+  map((product) => product.price),
+  reduce(addPrice),
+  log,
+);
+
+go(
+  products,
+  filter((product) => product.price < 5000),
+  total_price,
   log,
 );
 
