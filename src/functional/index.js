@@ -128,11 +128,11 @@ L.range = function* (length) {
   while (++number < length) yield number;
 };
 
-const take = (iter, length) => {
+const take = (limit, iter) => {
   const res = [];
   for (const value of iter) {
     res.push(value);
-    if (res.length === length) return res;
+    if (res.length === limit) return res;
   }
 
   return res;
@@ -144,8 +144,8 @@ const test = (name, count, f) => {
   console.timeEnd(name);
 };
 
-test('range', 10, () => take(range(100000), 5));
-test('L.range', 10, () => take(L.range(100000), 5));
+test('range', 10, () => take(5, range(100000)));
+test('L.range', 10, () => take(5, L.range(100000)));
 
 /* go(
   0,
