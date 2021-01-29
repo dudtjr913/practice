@@ -128,6 +128,16 @@ L.range = function* (length) {
   while (++number < length) yield number;
 };
 
+L.map = function* (f, iter) {
+  for (const value of iter) yield f(value);
+};
+
+L.filter = function* (f, iter) {
+  for (const value of iter) {
+    if (f(value)) yield value;
+  }
+};
+
 const take = (limit, iter) => {
   const res = [];
   for (const value of iter) {
@@ -146,6 +156,19 @@ const test = (name, count, f) => {
 
 test('range', 10, () => take(5, range(100000)));
 test('L.range', 10, () => take(5, L.range(100000)));
+
+console.clear();
+const lazyMap = L.map((a) => a + 10, [1, 2, 3]);
+log(lazyMap.next());
+log(lazyMap.next());
+log(lazyMap.next());
+log(lazyMap.next());
+
+const lazyFilter = L.filter((a) => a % 2, [1, 2, 3, 4, 5]);
+log(lazyFilter.next());
+log(lazyFilter.next());
+log(lazyFilter.next());
+log(lazyFilter.next());
 
 /* go(
   0,
