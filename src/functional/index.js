@@ -110,57 +110,31 @@ const reduce = curry((f, acc, iter) => {
 
   return acc;
 });
+const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
+const pipe = (f, ...fs) => (...param) => go(f(...param), ...fs);
+const range = (length) => {
+  const res = [];
+  let number = -1;
+  while (++number < length) {
+    res.push(number);
+  }
 
-const products = [
-  {name: '사과', price: 5000},
-  {name: '배', price: 6000},
-  {name: '오렌지', price: 4000},
-  {name: '키위', price: 8000},
-  {name: '귤', price: 3000},
-  {name: '바나나', price: 2000},
-];
-
-const addPrice = (total_price, price) => total_price + price;
-
-log(
-  reduce(
-    addPrice,
-    0,
-    map(
-      (product) => product.price,
-      filter((product) => product.price < 5000, products),
-    ),
-  ),
-);
-
-function* gen() {
-  yield 1;
-  yield 2;
-  yield 3;
-}
-
-let c = 30;
-const add = (a, b) => {
-  c = a;
-  return a + b;
+  return res;
 };
 
-log(c);
-log(add(10, 20));
-log(c);
+const L = {};
+L.range = function* (length) {
+  let number = -1;
+  while (++number < length) yield number;
+};
 
-const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
-
-go(
+/* go(
   0,
   (a) => a + 1,
   (a) => a + 10,
   (a) => a + 100,
   log,
 );
-
-const pipe = (f, ...fs) => (...param) => go(f(...param), ...fs);
-
 pipe(
   (a, b) => a + b,
   (a) => a + 10,
@@ -208,4 +182,4 @@ go(
   products,
   getTotalPrice((product) => product.price >= 5000),
   log,
-);
+); */
