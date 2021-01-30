@@ -82,11 +82,7 @@ const curry = (f) => (a, ...args) =>
 
 const map = curry((f, iter) => {
   const res = [];
-  iter = iter[Symbol.iterator]();
-  let cur;
-
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
+  for (const value of iter) {
     res.push(f(value));
   }
 
@@ -95,11 +91,7 @@ const map = curry((f, iter) => {
 
 const filter = curry((f, iter) => {
   const res = [];
-  iter = iter[Symbol.iterator]();
-  let cur;
-
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
+  for (const value of iter) {
     f(value) && res.push(value);
   }
 
@@ -110,13 +102,8 @@ const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
-  } else {
-    iter = iter[Symbol.iterator]();
   }
-  let cur;
-
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
+  for (const value of iter) {
     acc = f(acc, value);
   }
 
@@ -142,19 +129,13 @@ L.range = function* (length) {
 };
 
 L.map = curry(function* (f, iter) {
-  iter = iter[Symbol.iterator]();
-  let cur;
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
+  for (const value of iter) {
     yield f(value);
   }
 });
 
 L.filter = curry(function* (f, iter) {
-  iter = iter[Symbol.iterator]();
-  let cur;
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
+  for (const value of iter) {
     if (f(value)) yield value;
   }
 });
