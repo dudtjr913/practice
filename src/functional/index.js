@@ -82,7 +82,11 @@ const curry = (f) => (a, ...args) =>
 
 const map = curry((f, iter) => {
   const res = [];
-  for (const value of iter) {
+  iter = iter[Symbol.iterator]();
+  let cur;
+
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
     res.push(f(value));
   }
 
@@ -91,8 +95,12 @@ const map = curry((f, iter) => {
 
 const filter = curry((f, iter) => {
   const res = [];
-  for (const v of iter) {
-    f(v) && res.push(v);
+  iter = iter[Symbol.iterator]();
+  let cur;
+
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
+    f(value) && res.push(value);
   }
 
   return res;
@@ -102,14 +110,19 @@ const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
+  } else {
+    iter = iter[Symbol.iterator]();
   }
+  let cur;
 
-  for (const v of iter) {
-    acc = f(acc, v);
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
+    acc = f(acc, value);
   }
 
   return acc;
 });
+
 const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
 const pipe = (f, ...fs) => (...param) => go(f(...param), ...fs);
 const range = (length) => {
@@ -128,17 +141,25 @@ L.range = function* (length) {
   while (++number < length) yield number;
 };
 
-L.map = function* (f, iter) {
-  for (const value of iter) yield f(value);
-};
+L.map = curry(function* (f, iter) {
+  iter = iter[Symbol.iterator]();
+  let cur;
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
+    yield f(value);
+  }
+});
 
-L.filter = function* (f, iter) {
-  for (const value of iter) {
+L.filter = curry(function* (f, iter) {
+  iter = iter[Symbol.iterator]();
+  let cur;
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
     if (f(value)) yield value;
   }
-};
+});
 
-const take = (limit, iter) => {
+const take = curry((limit, iter) => {
   const res = [];
   for (const value of iter) {
     res.push(value);
@@ -146,29 +167,7 @@ const take = (limit, iter) => {
   }
 
   return res;
-};
-
-const test = (name, count, f) => {
-  console.time(name);
-  while (count--) f();
-  console.timeEnd(name);
-};
-
-test('range', 10, () => take(5, range(100000)));
-test('L.range', 10, () => take(5, L.range(100000)));
-
-console.clear();
-const lazyMap = L.map((a) => a + 10, [1, 2, 3]);
-log(lazyMap.next());
-log(lazyMap.next());
-log(lazyMap.next());
-log(lazyMap.next());
-
-const lazyFilter = L.filter((a) => a % 2, [1, 2, 3, 4, 5]);
-log(lazyFilter.next());
-log(lazyFilter.next());
-log(lazyFilter.next());
-log(lazyFilter.next());
+});
 
 /* go(
   0,
