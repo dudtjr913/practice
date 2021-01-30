@@ -102,3 +102,46 @@ log(lazyFilter.next()); // {value: 1, done: false}
 log(lazyFilter.next()); // {value: 3, done: false}
 ```
 이처럼 값을 평가하지 않고 가지고 있다가 next() 메소드로 필요할 때 값을 평가하여 사용할 수 있게 되었다.
+
+# range, take, map, filter, reduce 중첩 사용
+이번에는 지금까지 배운 함수들을 중첩해서 사용해 볼 것인데, 사용하기 전에 기본 함수와 지연된 함수의 동작 방식이<br>
+어떤 순서로 이루어지는지 살펴보자.
+```javascript
+// 변경 전
+const map = curry((f, iter) => {
+  const res = [];
+  
+  for (const value of iter) {
+    res.push(f(value));
+  }
+
+  return res;
+});
+
+
+// 변경 후
+const map = curry((f, iter) => {
+  const res = [];
+  iter = iter[Symbol.iterator]();
+  let cur;
+
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
+    res.push(f(value));
+  }
+
+  return res;
+});
+
+// 나머지 filter, reduce, take도 동일하게 변경
+```
+동작 순서를 확인하기 전에 for of문이 동작하는 방식을 명령형으로 표현해보았다.
+```javascript
+go(
+  range(10),
+  map((n) => n + 10),
+  filter((n) => n % 2),
+  take(2),
+  log,
+); // [11, 13]
+```
