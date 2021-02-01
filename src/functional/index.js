@@ -168,6 +168,20 @@ const queryStr = pipe(
 
 log(queryStr({limit: 10, offset: 10, type: 'notice'}));
 
+const users = [
+  {age: 32},
+  {age: 33},
+  {age: 34},
+  {age: 28},
+  {age: 29},
+  {age: 15},
+  {age: 42},
+];
+
+const find = (f, iter) => go(iter, L.filter(f), take(1), ([v]) => v);
+
+log(find((v) => v.age < 30, users));
+
 /* go(
   0,
   (a) => a + 1,
