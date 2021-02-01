@@ -140,6 +140,12 @@ L.filter = curry(function* (f, iter) {
   }
 });
 
+L.entries = function* (obj) {
+  for (const key in obj) {
+    yield [key, obj[key]];
+  }
+};
+
 const take = curry((limit, iter) => {
   const res = [];
   for (const value of iter) {
@@ -149,6 +155,18 @@ const take = curry((limit, iter) => {
 
   return res;
 });
+
+const join = curry((sep = '', iter) =>
+  reduce((a, b) => `${a}${sep}${b}`, iter),
+);
+
+const queryStr = pipe(
+  L.entries,
+  L.map(([key, value]) => `${key}=${value}`),
+  join(' $ '),
+);
+
+log(queryStr({limit: 10, offset: 10, type: 'notice'}));
 
 /* go(
   0,
