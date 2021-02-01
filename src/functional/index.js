@@ -80,23 +80,29 @@ log(func(...odds(3, 8)));
 const curry = (f) => (a, ...args) =>
   args.length ? f(a, ...args) : (...rest) => f(a, ...rest);
 
-const map = curry((f, iter) => {
-  const res = [];
-  for (const value of iter) {
-    res.push(f(value));
-  }
+const L = {};
+L.range = function* (length) {
+  let number = -1;
+  while (++number < length) yield number;
+};
 
-  return res;
+L.map = curry(function* (f, iter) {
+  for (const value of iter) {
+    yield f(value);
+  }
 });
 
-const filter = curry((f, iter) => {
-  const res = [];
+L.filter = curry(function* (f, iter) {
   for (const value of iter) {
-    f(value) && res.push(value);
+    if (f(value)) yield value;
   }
-
-  return res;
 });
+
+L.entries = function* (obj) {
+  for (const key in obj) {
+    yield [key, obj[key]];
+  }
+};
 
 const reduce = curry((f, acc, iter) => {
   if (!iter) {
@@ -122,30 +128,6 @@ const range = (length) => {
   return res;
 };
 
-const L = {};
-L.range = function* (length) {
-  let number = -1;
-  while (++number < length) yield number;
-};
-
-L.map = curry(function* (f, iter) {
-  for (const value of iter) {
-    yield f(value);
-  }
-});
-
-L.filter = curry(function* (f, iter) {
-  for (const value of iter) {
-    if (f(value)) yield value;
-  }
-});
-
-L.entries = function* (obj) {
-  for (const key in obj) {
-    yield [key, obj[key]];
-  }
-};
-
 const take = curry((limit, iter) => {
   const res = [];
   for (const value of iter) {
@@ -155,6 +137,27 @@ const take = curry((limit, iter) => {
 
   return res;
 });
+
+const map = curry(pipe(L.map, take(Infinity)));
+const generalMap = curry((f, iter) => {
+  const res = [];
+  for (const value of iter) {
+    res.push(f(value));
+  }
+
+  return res;
+});
+
+const test = (name, count, f) => {
+  console.time(name);
+  while (count--) f();
+  console.timeEnd(name);
+};
+
+test('general', 10, () => generalMap((v) => v + 1, range(1000000)));
+test('lazy', 10, () => map((v) => v + 1, range(1000000)));
+
+const filter = curry(pipe(L.filter, take(Infinity)));
 
 const join = curry((sep = '', iter) =>
   reduce((a, b) => `${a}${sep}${b}`, iter),
@@ -179,8 +182,6 @@ const users = [
 ];
 
 const find = (f, iter) => go(iter, L.filter(f), take(1), ([v]) => v);
-
-log(find((v) => v.age < 30, users));
 
 /* go(
   0,
