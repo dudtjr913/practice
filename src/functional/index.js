@@ -154,9 +154,6 @@ const test = (name, count, f) => {
   console.timeEnd(name);
 };
 
-test('general', 10, () => generalMap((v) => v + 1, range(1000000)));
-test('lazy', 10, () => map((v) => v + 1, range(1000000)));
-
 const filter = curry(pipe(L.filter, take(Infinity)));
 
 const join = curry((sep = '', iter) =>
@@ -182,6 +179,22 @@ const users = [
 ];
 
 const find = (f, iter) => go(iter, L.filter(f), take(1), ([v]) => v);
+
+const isIterable = (value) => value && value[Symbol.iterator];
+
+L.flatten = function* (iter) {
+  for (const value of iter) {
+    if (isIterable(value)) {
+      for (const flatValue of value) yield flatValue;
+    } else {
+      yield value;
+    }
+  }
+};
+
+const flatten = pipe(L.flatten, take(Infinity));
+
+log(flatten([1, [1, 2], 3]));
 
 /* go(
   0,
