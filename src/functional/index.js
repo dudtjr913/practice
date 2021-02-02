@@ -202,12 +202,24 @@ L.deepFlat = function* deep(iter) {
   }
 };
 
+L.flatMap = curry(pipe(L.map, L.flatten));
+
 const flatten = pipe(L.flatten, take(Infinity));
 const deepFlat = pipe(L.deepFlat, take(Infinity));
+const flatMap = curry(pipe(L.map, flatten));
 
-log(flatten([1, [2, 3], 4]));
-go([1, [2, 3, [4, 5]]], L.deepFlat, take(Infinity), log);
-log(deepFlat([1, [2, 3, [4, 5]]]));
+const iter = [
+  [1, 2],
+  [3, 4],
+  [5, 6, 7],
+];
+
+log(
+  flatMap(
+    map((v) => v + 1),
+    iter,
+  ),
+);
 
 /* go(
     0,
