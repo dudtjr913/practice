@@ -195,7 +195,7 @@ L.flatten = function* (iter) {
 L.deepFlat = function* deep(iter) {
   for (const value of iter) {
     if (isIterable(value)) yield* deep(value);
-    // for (const flatValue of value) yield flatValue
+    // for (const flatValue of deep(value)) yield flatValue
     else {
       yield value;
     }
