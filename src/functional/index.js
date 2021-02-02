@@ -184,34 +184,47 @@ const isIterable = (value) => value && value[Symbol.iterator];
 
 L.flatten = function* (iter) {
   for (const value of iter) {
-    if (isIterable(value)) {
-      for (const flatValue of value) yield flatValue;
-    } else {
+    if (isIterable(value)) yield* value;
+    // for (const flatValue of value) yield flatValue
+    else {
+      yield value;
+    }
+  }
+};
+
+L.deepFlat = function* deep(iter) {
+  for (const value of iter) {
+    if (isIterable(value)) yield* deep(value);
+    // for (const flatValue of value) yield flatValue
+    else {
       yield value;
     }
   }
 };
 
 const flatten = pipe(L.flatten, take(Infinity));
+const deepFlat = pipe(L.deepFlat, take(Infinity));
 
-log(flatten([1, [1, 2], 3]));
+log(flatten([1, [2, 3], 4]));
+go([1, [2, 3, [4, 5]]], L.deepFlat, take(Infinity), log);
+log(deepFlat([1, [2, 3, [4, 5]]]));
 
 /* go(
-  0,
-  (a) => a + 1,
-  (a) => a + 10,
-  (a) => a + 100,
-  log,
-);
-pipe(
+    0,
+    (a) => a + 1,
+    (a) => a + 10,
+    (a) => a + 100,
+    log,
+    );
+    pipe(
   (a, b) => a + b,
   (a) => a + 10,
   (a) => a + 100,
   log,
-)(0, 1);
-
-const total_price = pipe(
-  map((product) => product.price),
+  )(0, 1);
+  
+  const total_price = pipe(
+    map((product) => product.price),
   reduce(addPrice),
 );
 const getTotalPrice = (f) => pipe(filter(f), total_price);
