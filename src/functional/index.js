@@ -208,17 +208,19 @@ const flatten = pipe(L.flatten, take(Infinity));
 const deepFlat = pipe(L.deepFlat, take(Infinity));
 const flatMap = curry(pipe(L.map, flatten));
 
-const iter = [
+const arr = [
   [1, 2],
-  [3, 4],
-  [5, 6, 7],
+  [3, 4, 5],
+  [6, 7, 8],
+  [9, 10],
 ];
 
-log(
-  flatMap(
-    map((v) => v + 1),
-    iter,
-  ),
+go(
+  arr,
+  L.flatten,
+  L.filter((v) => v % 2),
+  reduce((a, b) => a + b),
+  log,
 );
 
 /* go(
