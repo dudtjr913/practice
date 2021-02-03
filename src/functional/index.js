@@ -223,6 +223,28 @@ go(
   log,
 );
 
+console.clear();
+
+const add10 = (v, callback) => {
+  setTimeout(() => callback(v + 10), 1000);
+};
+
+add10(5, (res) => {
+  add10(res, (res) => {
+    add10(res, (res) => {
+      log(res);
+    });
+  });
+});
+
+const add20 = (v) => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(v + 20), 1000);
+  });
+};
+
+add20(5).then(add20).then(log);
+
 /* go(
     0,
     (a) => a + 1,
