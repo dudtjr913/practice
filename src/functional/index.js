@@ -229,21 +229,20 @@ const add10 = (v, callback) => {
   setTimeout(() => callback(v + 10), 1000);
 };
 
-add10(5, (res) => {
-  add10(res, (res) => {
-    add10(res, (res) => {
-      log(res);
-    });
-  });
-});
-
 const add20 = (v) => {
   return new Promise((resolve) => {
     setTimeout(() => resolve(v + 20), 1000);
   });
 };
 
-add20(5).then(add20).then(log);
+const delay100 = (a) =>
+  new Promise((resolve) => setTimeout(() => resolve(a), 100));
+
+const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+const add5 = (a) => a + 5;
+
+log(go1(10, add5));
+go1(delay100(10), add5).then(log);
 
 /* go(
     0,
