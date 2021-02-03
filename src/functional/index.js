@@ -241,8 +241,28 @@ const delay100 = (a) =>
 const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
 const add5 = (a) => a + 5;
 
-log(go1(10, add5));
-go1(delay100(10), add5).then(log);
+const add1 = (a) => a + 1;
+const square = (a) => a * a;
+
+[1]
+  .map(add1)
+  .map(square)
+  .forEach((v) => log(v));
+
+[]
+  .map(add1)
+  .map(square)
+  .forEach((v) => log(v));
+
+Promise.resolve(1)
+  .then(add1)
+  .then(square)
+  .then((v) => log(v));
+
+new Promise((resolve) => setTimeout(() => resolve(1), 1000))
+  .then(add1)
+  .then(square)
+  .then((v) => log(v));
 
 /* go(
     0,
