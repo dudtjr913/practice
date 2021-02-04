@@ -168,16 +168,6 @@ const queryStr = pipe(
 
 log(queryStr({limit: 10, offset: 10, type: 'notice'}));
 
-const users = [
-  {age: 32},
-  {age: 33},
-  {age: 34},
-  {age: 28},
-  {age: 29},
-  {age: 15},
-  {age: 42},
-];
-
 const find = (f, iter) => go(iter, L.filter(f), take(1), ([v]) => v);
 
 const isIterable = (value) => value && value[Symbol.iterator];
@@ -263,6 +253,19 @@ new Promise((resolve) => setTimeout(() => resolve(1), 1000))
   .then(add1)
   .then(square)
   .then((v) => log(v));
+
+const users = [
+  {id: 1, name: 'aa'},
+  {id: 2, name: 'bb'},
+  {id: 3, name: 'cc'},
+];
+
+const getUserById = (id) => find((user) => user.id === id, users);
+
+const f = ({name}) => name;
+const g = getUserById;
+
+log(f(g(2)));
 
 /* go(
     0,
