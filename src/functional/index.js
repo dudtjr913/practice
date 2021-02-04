@@ -108,11 +108,15 @@ const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
+  } else {
+    iter = iter[Symbol.iterator]();
   }
-  for (const value of iter) {
-    acc = f(acc, value);
+  let cur;
+  while (!(cur = iter.next()).done) {
+    const value = cur.value;
+    acc =
+      acc instanceof Promise ? acc.then((acc) => f(acc, value)) : f(acc, value);
   }
-
   return acc;
 });
 
@@ -274,6 +278,17 @@ const fg = (id) =>
 users.pop();
 users.pop();
 fg(2).then(log);
+
+console.clear();
+
+go(
+  1,
+  (a) => a + 10,
+  (a) => Promise.resolve(a + 100),
+  (a) => a + 1000,
+  (a) => a + 10000,
+  log,
+);
 
 /* go(
     0,
