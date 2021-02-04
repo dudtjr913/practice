@@ -111,3 +111,36 @@ const reduce = curry((f, acc, iter) => {
 });
 ```
 이제 비동기와 동기 처리를 구분할 수 있게 되었다.
+
+하지만 아직도 첫 번째 인수로 비동기가 들어오게 되면 처리하지 못하는 문제가 있는데, 이는 go1 함수로 처리할 수 있다.
+```javascript
+const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+
+const reduce = curry((f, acc, iter) => {
+  if (!iter) {
+    iter = acc[Symbol.iterator]();
+    acc = iter.next().value;
+  } else {
+    iter = iter[Symbol.iterator]();
+  }
+
+  return go1(acc, function recur(acc) {
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const value = cur.value;
+      acc = f(acc, value);
+      if (acc instanceof Promise) return acc.then(recur);
+    }
+    return acc;
+  });
+});
+
+go(
+  Promise.resolve(1),
+  (a) => a + 10,
+  (a) => Promise.resolve(a + 100),
+  (a) => a + 1000,
+  (a) => a + 10000,
+  log,
+); // 11111
+```
