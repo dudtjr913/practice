@@ -111,13 +111,16 @@ const reduce = curry((f, acc, iter) => {
   } else {
     iter = iter[Symbol.iterator]();
   }
-  let cur;
-  while (!(cur = iter.next()).done) {
-    const value = cur.value;
-    acc =
-      acc instanceof Promise ? acc.then((acc) => f(acc, value)) : f(acc, value);
-  }
-  return acc;
+
+  return (function recur(acc) {
+    let cur;
+    while (!(cur = iter.next()).done) {
+      const value = cur.value;
+      acc = f(acc, value);
+      if (acc instanceof Promise) return acc.then(recur);
+    }
+    return acc;
+  })(acc);
 });
 
 const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
