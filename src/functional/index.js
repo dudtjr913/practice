@@ -260,12 +260,20 @@ const users = [
   {id: 3, name: 'cc'},
 ];
 
-const getUserById = (id) => find((user) => user.id === id, users);
+const getUserById = (id) =>
+  find((user) => user.id === id, users) || Promise.reject('없어요');
 
 const f = ({name}) => name;
 const g = getUserById;
+const fg = (id) =>
+  Promise.resolve(id)
+    .then(g)
+    .then(f)
+    .catch((error) => error);
 
-log(f(g(2)));
+users.pop();
+users.pop();
+fg(2).then(log);
 
 /* go(
     0,
