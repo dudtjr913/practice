@@ -80,6 +80,8 @@ log(func(...odds(3, 8)));
 const curry = (f) => (a, ...args) =>
   args.length ? f(a, ...args) : (...rest) => f(a, ...rest);
 
+const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+
 const L = {};
 L.range = function* (length) {
   let number = -1;
@@ -88,7 +90,7 @@ L.range = function* (length) {
 
 L.map = curry(function* (f, iter) {
   for (const value of iter) {
-    yield f(value);
+    yield go1(value, f);
   }
 });
 
@@ -112,7 +114,7 @@ const reduce = curry((f, acc, iter) => {
     iter = iter[Symbol.iterator]();
   }
 
-  return (function recur(acc) {
+  return go1(acc, function recur(acc) {
     let cur;
     while (!(cur = iter.next()).done) {
       const value = cur.value;
@@ -120,7 +122,7 @@ const reduce = curry((f, acc, iter) => {
       if (acc instanceof Promise) return acc.then(recur);
     }
     return acc;
-  })(acc);
+  });
 });
 
 const go = (param, ...fs) => reduce((acc, f) => f(acc), param, fs);
@@ -137,12 +139,22 @@ const range = (length) => {
 
 const take = curry((limit, iter) => {
   const res = [];
-  for (const value of iter) {
-    res.push(value);
-    if (res.length === limit) return res;
-  }
+  iter = iter[Symbol.iterator]();
+  let cur;
+  return (function recur() {
+    while (!(cur = iter.next()).done) {
+      const value = cur.value;
+      if (value instanceof Promise)
+        return value.then((v) =>
+          (res.push(v), res).length === limit ? res : recur(),
+        );
 
-  return res;
+      res.push(value);
+      if (res.length === limit) return res;
+    }
+
+    return res;
+  })();
 });
 
 const map = curry(pipe(L.map, take(Infinity)));
@@ -235,7 +247,6 @@ const add20 = (v) => {
 const delay100 = (a) =>
   new Promise((resolve) => setTimeout(() => resolve(a), 100));
 
-const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
 const add5 = (a) => a + 5;
 
 const add1 = (a) => a + 1;
@@ -282,14 +293,10 @@ users.pop();
 users.pop();
 fg(2).then(log);
 
-console.clear();
-
 go(
-  1,
-  (a) => a + 10,
-  (a) => Promise.resolve(a + 100),
-  (a) => a + 1000,
-  (a) => a + 10000,
+  [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)],
+  L.map((v) => v + 10),
+  take(2),
   log,
 );
 
