@@ -111,6 +111,14 @@ L.entries = function* (obj) {
   }
 };
 
+const reduceInner = (acc, value, f) =>
+  value instanceof Promise
+    ? value.then(
+        (v) => f(acc, v),
+        (e) => (e === nop ? acc : Promise.reject(e)),
+      )
+    : f(acc, value);
+
 const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
@@ -122,8 +130,7 @@ const reduce = curry((f, acc, iter) => {
   return go1(acc, function recur(acc) {
     let cur;
     while (!(cur = iter.next()).done) {
-      const value = cur.value;
-      acc = f(acc, value);
+      acc = reduceInner(acc, cur.value, f);
       if (acc instanceof Promise) return acc.then(recur);
     }
     return acc;
@@ -274,10 +281,10 @@ const fg = (id) =>
     .catch((error) => error);
 
 go(
-  [1, 2, 3, 4, 5, 6],
+  [1, 2, 3, 4],
   L.map((v) => Promise.resolve(v * v)),
-  L.filter((v) => v % 2),
-  take(2),
+  L.filter((v) => Promise.resolve(v % 2)),
+  reduce((a, b) => a + b),
   log,
 );
 
