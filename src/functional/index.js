@@ -94,9 +94,14 @@ L.map = curry(function* (f, iter) {
   }
 });
 
+const nop = Symbol('nop');
+
 L.filter = curry(function* (f, iter) {
-  for (const value of iter) {
-    if (f(value)) yield value;
+  for (const v of iter) {
+    const value = go1(v, f);
+    if (value instanceof Promise)
+      yield value.then((a) => (a ? v : Promise.reject()));
+    else if (value) yield v;
   }
 });
 
@@ -251,27 +256,6 @@ const add5 = (a) => a + 5;
 
 const add1 = (a) => a + 1;
 const square = (a) => a * a;
-
-[1]
-  .map(add1)
-  .map(square)
-  .forEach((v) => log(v));
-
-[]
-  .map(add1)
-  .map(square)
-  .forEach((v) => log(v));
-
-Promise.resolve(1)
-  .then(add1)
-  .then(square)
-  .then((v) => log(v));
-
-new Promise((resolve) => setTimeout(() => resolve(1), 1000))
-  .then(add1)
-  .then(square)
-  .then((v) => log(v));
-
 const users = [
   {id: 1, name: 'aa'},
   {id: 2, name: 'bb'},
@@ -289,13 +273,10 @@ const fg = (id) =>
     .then(f)
     .catch((error) => error);
 
-users.pop();
-users.pop();
-fg(2).then(log);
-
 go(
-  [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)],
-  L.map((v) => v + 10),
+  [1, 2, 3, 4, 5, 6],
+  L.map((v) => Promise.resolve(v * v)),
+  L.filter((v) => v % 2),
   take(2),
   log,
 );
