@@ -100,7 +100,7 @@ L.filter = curry(function* (f, iter) {
   for (const v of iter) {
     const value = go1(v, f);
     if (value instanceof Promise)
-      yield value.then((a) => (a ? v : Promise.reject()));
+      yield value.then((a) => (a ? v : Promise.reject(nop)));
     else if (value) yield v;
   }
 });
@@ -150,9 +150,9 @@ const take = curry((limit, iter) => {
     while (!(cur = iter.next()).done) {
       const value = cur.value;
       if (value instanceof Promise)
-        return value.then((v) =>
-          (res.push(v), res).length === limit ? res : recur(),
-        );
+        return value
+          .then((v) => ((res.push(v), res).length === limit ? res : recur()))
+          .catch((e) => (e === nop ? recur() : Promise.reject(e)));
 
       res.push(value);
       if (res.length === limit) return res;
