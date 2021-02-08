@@ -282,11 +282,23 @@ const fg = (id) =>
 
 go(
   [1, 2, 3, 4],
-  L.map((v) => Promise.resolve(v * v)),
+  L.map(
+    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
+  ),
   L.filter((v) => Promise.resolve(v % 2)),
-  reduce((a, b) => a + b),
+  take(1),
   log,
-);
+); // 1초
+
+go(
+  [1, 2, 3, 4],
+  L.map(
+    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
+  ),
+  L.filter((v) => Promise.resolve(v % 2)),
+  take(Infinity),
+  log,
+); // 4초
 
 /* go(
     0,
