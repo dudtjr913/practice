@@ -196,3 +196,30 @@ const reduce = curry((f, acc, iter) => {
 });
 ```
 iterator 값이 Promise.reject()일 때를 대비하여 처리를 해주는 reduceInner 함수를 통해 에러를 처리할 수 있게 되었다.
+
+# 지연 평가 + Promise의 효율성
+이제 L.map, L.filter는 Promise를 받을 수 있게 되었다. 이들은 지연 평가가 이루어지기 때문에<br>
+필요한 값만 전달을 하게 되고, 그로 인해 Promise의 효율성이 대폭 증가한다.
+```javascript
+go(
+  [1, 2, 3, 4],
+  L.map(
+    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
+  ),
+  L.filter((v) => Promise.resolve(v % 2)),
+  take(1),
+  log,
+); // 1초
+
+go(
+  [1, 2, 3, 4],
+  L.map(
+    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
+  ),
+  L.filter((v) => Promise.resolve(v % 2)),
+  take(Infinity),
+  log,
+); // 4초
+```
+이렇게 한 개의 결과만을 원할 때, L.map에서 모든 iterable을 돌지 않고 한 개만을 전달하기 때문에<br>
+1초가 걸리는 것을 볼 수 있고, 효율성이 증가한 것을 확인할 수 있다.
