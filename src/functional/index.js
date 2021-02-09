@@ -280,25 +280,24 @@ const fg = (id) =>
     .then(f)
     .catch((error) => error);
 
-go(
-  [1, 2, 3, 4],
-  L.map(
-    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
-  ),
-  L.filter((v) => Promise.resolve(v % 2)),
-  take(1),
-  log,
-); // 1초
+const C = {};
+C.reduce = curry((f, acc, iter) =>
+  iter ? reduce(f, acc, [...iter]) : reduce(f, [...acc]),
+);
+
+const delay500 = (a) =>
+  new Promise((resolve) => {
+    console.log('result');
+    setTimeout(() => resolve(a), 500);
+  });
 
 go(
-  [1, 2, 3, 4],
-  L.map(
-    (v) => new Promise((resolve) => setTimeout(() => resolve(v * v), 1000)),
-  ),
-  L.filter((v) => Promise.resolve(v % 2)),
-  take(Infinity),
+  [1, 2, 3, 4, 5],
+  L.map((a) => delay500(a * a)),
+  L.filter((a) => a % 2),
+  C.reduce((a, b) => a + b),
   log,
-); // 4초
+);
 
 /* go(
     0,
