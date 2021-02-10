@@ -152,15 +152,15 @@ const range = (length) => {
 const take = curry((limit, iter) => {
   const res = [];
   iter = iter[Symbol.iterator]();
-  let cur;
   return (function recur() {
+    let cur;
     while (!(cur = iter.next()).done) {
       const value = cur.value;
-      if (value instanceof Promise)
+      if (value instanceof Promise) {
         return value
           .then((v) => ((res.push(v), res).length === limit ? res : recur()))
           .catch((e) => (e === nop ? recur() : Promise.reject(e)));
-
+      }
       res.push(value);
       if (res.length === limit) return res;
     }
@@ -281,9 +281,17 @@ const fg = (id) =>
     .catch((error) => error);
 
 const C = {};
-C.reduce = curry((f, acc, iter) =>
-  iter ? reduce(f, acc, [...iter]) : reduce(f, [...acc]),
+function noop() {}
+const catchNoop = (arr) => (
+  arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
 );
+
+C.reduce = curry((f, acc, iter) => {
+  const iter2 = catchNoop(iter ? [...iter] : [...acc]);
+  return iter ? reduce(f, acc, iter2) : reduce(f, iter2);
+});
+
+C.take = curry((l, iter) => take(l, catchNoop([...iter])));
 
 const delay500 = (a) =>
   new Promise((resolve) => {
@@ -294,8 +302,10 @@ const delay500 = (a) =>
 go(
   [1, 2, 3, 4, 5],
   L.map((a) => delay500(a * a)),
-  L.filter((a) => a % 2),
-  C.reduce((a, b) => a + b),
+  L.filter((a) => delay500(a % 2)),
+  L.map((a) => delay500(a * a)),
+  C.take(2),
+  reduce((a, b) => a + b),
   log,
 );
 
