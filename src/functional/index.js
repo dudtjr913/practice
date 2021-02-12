@@ -303,14 +303,17 @@ const delay500 = (a) =>
     setTimeout(() => resolve(a), 500);
   });
 
-go(
-  [1, 2, 3, 4, 5],
-  C.map((a) => delay500(a * a)),
-  C.filter((a) => delay500(a % 2)),
-  C.take(2),
-  C.reduce((a, b) => a + b),
-  log,
-);
+const delay = (a) => {
+  return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+};
+
+const asyncF = async () => {
+  const a = await delay(10);
+  const b = await delay(5);
+  log(a + b);
+};
+
+asyncF();
 
 /* go(
     0,
