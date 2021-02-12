@@ -303,13 +303,18 @@ const delay500 = (a) =>
     setTimeout(() => resolve(a), 500);
   });
 
-const delay = (a) => {
-  return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+const delay = (time) => {
+  return new Promise((resolve) => setTimeout(() => resolve(), time));
+};
+
+const delayIdentity = async (a) => {
+  await delay(500);
+  return a;
 };
 
 const asyncF = async () => {
-  const a = await delay(10);
-  const b = await delay(5);
+  const a = await delayIdentity(10);
+  const b = await delayIdentity(5);
   log(a + b);
 };
 
