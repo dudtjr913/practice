@@ -303,22 +303,23 @@ const delay500 = (a) =>
     setTimeout(() => resolve(a), 500);
   });
 
-const delay = (time) => {
-  return new Promise((resolve) => setTimeout(() => resolve(), time));
+const delay = (a) => {
+  return new Promise((resolve) => setTimeout(() => resolve(a), 500));
 };
 
-const delayIdentity = async (a) => {
-  await delay(500);
-  return a;
+const f1 = async () => {
+  const list = [1, 2, 3, 4];
+  const res = await list.map(async (a) => await delay(a * a));
+  return res;
 };
 
-const asyncF = async () => {
-  const a = await delayIdentity(10);
-  const b = await delayIdentity(5);
-  log(a + b);
+f1().then(log);
+
+const f2 = () => {
+  return map((a) => delay(a * a), [1, 2, 3, 4]);
 };
 
-asyncF();
+f2().then(log);
 
 /* go(
     0,
