@@ -304,7 +304,7 @@ const delay500 = (a) =>
   });
 
 const delay = (a) => {
-  return new Promise((resolve) => setTimeout(() => resolve(a), 500));
+  return new Promise((resolve) => setTimeout(() => resolve(a), 200));
 };
 
 const f1 = async () => {
@@ -313,13 +313,42 @@ const f1 = async () => {
   return res;
 };
 
-f1().then(log);
-
 const f2 = () => {
   return map((a) => delay(a * a), [1, 2, 3, 4]);
 };
 
-f2().then(log);
+const f3 = (list) => {
+  return go(
+    list,
+    L.map((a) => delay(a * a)),
+    L.filter((a) => delay(a % 2)),
+    L.map((a) => delay(a + 1)),
+    take(3),
+    reduce((a, b) => delay(a + b)),
+  );
+};
+
+go(f3([1, 2, 3, 4, 5, 6, 7, 8]), log);
+
+const f4 = async (list) => {
+  const temp = [];
+  for (const a of list) {
+    const b = await delay(a * a);
+    if (await delay(b % 2)) {
+      const c = await delay(b + 1);
+      temp.push(c);
+      if (temp.length === 3) break;
+    }
+  }
+  let res = temp[0];
+  let i = 0;
+  while (++i < temp.length) {
+    res = await delay(res + temp[i]);
+  }
+  return res;
+};
+
+go(f4([1, 2, 3, 4, 5, 6, 7, 8]), log);
 
 /* go(
     0,
