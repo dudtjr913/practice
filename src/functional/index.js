@@ -328,8 +328,6 @@ const f3 = (list) => {
   );
 };
 
-go(f3([1, 2, 3, 4, 5, 6, 7, 8]), log);
-
 const f4 = async (list) => {
   const temp = [];
   for (const a of list) {
@@ -347,8 +345,6 @@ const f4 = async (list) => {
   }
   return res;
 };
-
-go(f4([1, 2, 3, 4, 5, 6, 7, 8]), log);
 
 /* go(
     0,
