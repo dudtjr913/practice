@@ -65,6 +65,15 @@ const statement = (invoice, plays) => {
       minimumFractionDigits: 2,
     }).format(aNumber / 100);
   }
+
+  function totalVolumeCredits(){
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+      volumeCredits += volumeCreditsFor(perf);
+    }
+
+    return volumeCredits
+  }
 };
 
 console.log(statement(invoices, plays));
