@@ -53,6 +53,10 @@ const statement = (invoice, plays) => {
 
     return result;
   }
+
+  function playFor() {
+    return plays[perf.playID];
+  }
 };
 
 console.log(statement(invoices, plays));
