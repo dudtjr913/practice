@@ -1,13 +1,17 @@
 import invoices from '../json/invoices.js';
 import plays from '../json/plays.js';
 
-const statement = (invoice, plays) => {
+const statement = (invoices, plays) => {
+  return renderPlainText(createStatementData(invoices, plays));
+};
+
+const createStatementData = (invoice, plays) => {
   const statementData = [];
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
   statementData.totalAmount = totalAmount(statementData);
-  return renderPlainText(statementData, plays);
+  return statementData;
 
   function enrichPerformance(aPerformance) {
     const result = Object.assign({}, aPerformance);
