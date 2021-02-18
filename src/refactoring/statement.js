@@ -4,11 +4,6 @@ import plays from '../json/plays.js';
 const statement = (invoice, plays) => {
   let totalAmount = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-  
-  let volumeCredits = 0;
-  for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf);
-  }
 
   for (let perf of invoice.performances) {
     // 청구 내역 출력
@@ -19,7 +14,7 @@ const statement = (invoice, plays) => {
   }
 
   result += `총액: ${usd(totalAmount)}\n`;
-  result += `적립 포인트: ${volumeCredits}점\n`;
+  result += `적립 포인트: ${totalVolumeCredits()}점\n`;
   return result;
 
   function amountFor(aPerformance) {
