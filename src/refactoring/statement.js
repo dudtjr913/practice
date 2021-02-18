@@ -72,6 +72,15 @@ const statement = (invoice, plays) => {
 
     return volumeCredits;
   }
+
+  function xx(){
+    let totalAmount = 0;
+    for (let perf of invoice.performances) {
+      totalAmount += amountFor(perf);
+    }
+    
+    return totalAmount
+  }
 };
 
 console.log(statement(invoices, plays));
