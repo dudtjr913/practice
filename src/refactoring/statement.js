@@ -2,9 +2,9 @@ import invoices from '../json/invoices.js';
 import plays from '../json/plays.js';
 
 const statement = (invoice, plays) => {
-  let totalAmount = 0;
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
+  let totalAmount = 0;
   for (let perf of invoice.performances) {
     totalAmount += amountFor(perf);
   }
