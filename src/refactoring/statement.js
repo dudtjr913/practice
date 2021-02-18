@@ -6,11 +6,14 @@ const statement = (invoice, plays) => {
   let result = `청구 내역 (고객명: ${invoice.customer})\n`;
 
   for (let perf of invoice.performances) {
+    totalAmount += amountFor(perf);
+  }
+
+  for (let perf of invoice.performances) {
     // 청구 내역 출력
     result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${
       perf.audience
     }석)\n`;
-    totalAmount += amountFor(perf);
   }
 
   result += `총액: ${usd(totalAmount)}\n`;
@@ -61,13 +64,13 @@ const statement = (invoice, plays) => {
     }).format(aNumber / 100);
   }
 
-  function totalVolumeCredits(){
+  function totalVolumeCredits() {
     let volumeCredits = 0;
     for (let perf of invoice.performances) {
       volumeCredits += volumeCreditsFor(perf);
     }
 
-    return volumeCredits
+    return volumeCredits;
   }
 };
 
