@@ -12,9 +12,7 @@ const statement = (invoice, plays) => {
   }).format;
 
   for (let perf of invoice.performances) {
-    volumeCredits += Math.max(perf.audience - 30, 0);
-    if ('comedy' === playFor(perf).type)
-      volumeCredits += Math.floor(perf.audience / 5);
+    volumeCredits += volumeCreditsFor(perf)
     // 청구 내역 출력
     result += ` ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${
       perf.audience
