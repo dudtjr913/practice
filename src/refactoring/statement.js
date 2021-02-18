@@ -12,7 +12,7 @@ const statement = (invoice, plays) => {
   }).format;
 
   for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf)
+    volumeCredits += volumeCreditsFor(perf);
     // 청구 내역 출력
     result += ` ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${
       perf.audience
@@ -58,6 +58,14 @@ const statement = (invoice, plays) => {
       volumeCredits += Math.floor(aPerformance.audience / 5);
 
     return volumeCredits;
+  }
+
+  function usd(aNumber) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(aNumber);
   }
 };
 
