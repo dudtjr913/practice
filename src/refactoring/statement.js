@@ -58,12 +58,7 @@ const statement = (invoice, plays) => {
   }
 
   function totalAmount(data) {
-    let result = 0;
-    for (let perf of data.performances) {
-      result += perf.amount;
-    }
-
-    return result;
+    return data.performances.reduce((total, p) => total + p.amount, 0);
   }
 };
 
