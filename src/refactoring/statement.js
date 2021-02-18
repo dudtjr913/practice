@@ -8,6 +8,9 @@ const statement = (invoice, plays) => {
 
   for (let perf of invoice.performances) {
     volumeCredits += volumeCreditsFor(perf);
+  }
+
+  for (let perf of invoice.performances) {
     // 청구 내역 출력
     result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${
       perf.audience
