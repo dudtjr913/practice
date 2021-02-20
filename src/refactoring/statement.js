@@ -6,7 +6,7 @@ const statement = (invoices, plays) => {
 };
 
 const createStatementData = (invoice, plays) => {
-  const statementData = [];
+  const statementData = {};
   statementData.customer = invoice.customer;
   statementData.performances = invoice.performances.map(enrichPerformance);
   statementData.totalVolumeCredits = totalVolumeCredits(statementData);
