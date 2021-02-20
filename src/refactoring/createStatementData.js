@@ -41,6 +41,9 @@ export const createStatementData = (invoice, plays) => {
   }
 };
 
+const createPerformanceCalculator = (aPerformance, aPlay) => {
+  return new PerformanceCalculator(aPerformance, aPlay);
+};
 class PerformanceCalculator {
   constructor(aPerformance, aPlay) {
     this.performance = aPerformance;
