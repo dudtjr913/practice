@@ -26,15 +26,19 @@ const printOwing = (invoice) => {
     new Date().getDate(),
   );
 
-  console.log(`고객명: ${invoice.customer}`);
-  console.log(`채무액: ${outstanding}`);
-  console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
+  printDetails(invoice, outstanding);
 };
 
 const printBanner = () => {
   console.log('*****************');
   console.log('**** 고객 채무 ****');
   console.log('*****************');
+};
+
+const printDetails = (invoice, outstanding) => {
+  console.log(`고객명: ${invoice.customer}`);
+  console.log(`채무액: ${outstanding}`);
+  console.log(`마감일: ${invoice.dueDate.toLocaleDateString()}`);
 };
 
 printOwing(invoice);
