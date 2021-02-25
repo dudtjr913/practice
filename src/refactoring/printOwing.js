@@ -13,9 +13,8 @@ const invoice = {
 
 const printOwing = (invoice) => {
   printBanner();
-  const outstanding = calculateOutstanding(invoice.orders);
   recordDueDate(invoice);
-  printDetails(invoice, outstanding);
+  printDetails(invoice, calculateOutstanding(invoice.orders));
 };
 
 const printBanner = () => {
