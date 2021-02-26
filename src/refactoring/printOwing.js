@@ -2,10 +2,12 @@ const invoice = {
   customer: 'ditto',
   orders: [
     {
-      amount: 3000,
+      amount: 80000,
+      product: '책상',
     },
     {
-      amount: 5000,
+      amount: 50000,
+      product: '의자',
     },
   ],
   dueDate: null,
