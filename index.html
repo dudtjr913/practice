@@ -7,6 +7,18 @@
     <title>Document</title>
   </head>
   <body>
-    <script type="module" src="/src/refactoring/inline.js"></script>
+    <form>
+      <div class="mb-4">
+        <label for="regular-input">Regular: </label>
+        <input id="regular-input" type="text">
+        <span class="regular-rendered-text"></span>
+      </div>
+      <div>
+        <label for="debounced-input">Debounced: </label>
+        <input id="debounced-input" type="text">
+        <span class="debounced-rendered-text"></span>
+      </div>
+    </form>
+    <script type="module" src="/src/debounceThrottle.js"></script>
   </body>
 </html>

@@ -19,5 +19,8 @@
   "homepage": "https://github.com/dudtjr913/practice#readme",
   "devDependencies": {
     "json-server": "^0.16.3"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
   }
 }
