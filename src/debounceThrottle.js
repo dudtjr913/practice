@@ -15,5 +15,21 @@ const debounce = (() => {
   };
 })();
 
+const throttle = (() => {
+  let result;
+  return () => {
+    if (result) return;
+
+    result = setTimeout(() => {
+      document.querySelector('#counter').innerText++;
+      result = null;
+    }, 300);
+  };
+})();
+
 document.querySelector('#regular-input').addEventListener('keyup', regular);
 document.querySelector('#debounced-input').addEventListener('keyup', debounce);
+document.querySelector('.reset').addEventListener('click', () => {
+  document.querySelector('#counter').innerText = 0;
+});
+window.addEventListener('scroll', throttle);
