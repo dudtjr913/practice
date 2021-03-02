@@ -1,9 +1,7 @@
 body {
   margin: 0 auto;
-  background-color: #1d1e22;
   max-width: 600px;
   padding: 20px;
-  min-height: 1000vh;
   color: white;
 }
 
@@ -35,4 +33,24 @@ label {
 
 .mb-4 {
   margin-bottom: 20px;
+}
+
+@keyframes rotateLoading {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#loading {
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  animation: rotateLoading 2s infinite;
+}
+
+.hide {
+  display: none;
 }
