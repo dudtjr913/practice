@@ -1,35 +1,38 @@
 body {
-  margin: 0px;
+  margin: 0 auto;
+  background-color: #1d1e22;
+  max-width: 600px;
+  padding: 20px;
+  min-height: 1000vh;
+  color: white;
 }
 
-#wrapper {
-  background-color: black;
-  overflow: hidden;
+h1 {
+  position: fixed;
 }
 
-#left {
-  float: left;
-  width: 49%;
-  margin-right: 1%;
-  background-color: gray;
+#counter {
+  position: fixed;
+  top: 15vh;
+  left: 40%;
+  font-size: 50px;
 }
 
-#right {
-  float: left;
-  width: 49%;
-  margin-left: 1%;
-  background-color: red;
+.reset {
+  color: white;
+  position: fixed;
+  top: 20vh;
+  text-decoration: none;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-footer {
-  background-color: aqua;
-  clear: left;
+label {
+  font-weight: bold;
+  width: 90px;
+  display: inline-block;
 }
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: scale(0.9);
-  background-color: red;
+.mb-4 {
+  margin-bottom: 20px;
 }

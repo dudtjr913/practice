@@ -10,15 +10,18 @@
     <form>
       <div class="mb-4">
         <label for="regular-input">Regular: </label>
-        <input id="regular-input" type="text">
+        <input id="regular-input" type="text" />
         <span class="regular-rendered-text"></span>
       </div>
       <div>
         <label for="debounced-input">Debounced: </label>
-        <input id="debounced-input" type="text">
+        <input id="debounced-input" type="text" />
         <span class="debounced-rendered-text"></span>
       </div>
     </form>
+    <h1>스크롤 이벤트 수</h1>
+    <a href="#" class="reset">Reset</a>
+    <div id="counter">0</div>
     <script type="module" src="/src/debounceThrottle.js"></script>
   </body>
 </html>
