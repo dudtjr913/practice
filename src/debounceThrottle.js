@@ -4,6 +4,7 @@ const regular = (e) => {
 
 const debounce = (() => {
   let result;
+  
   return (e) => {
     if (result) {
       clearTimeout(result);
@@ -11,19 +12,20 @@ const debounce = (() => {
     result = setTimeout(() => {
       document.querySelector('.debounced-rendered-text').innerText =
         e.target.value;
-    }, 300);
+    }, 3000);
   };
 })();
 
 const throttle = (() => {
   let result;
+
   return () => {
     if (result) return;
 
     result = setTimeout(() => {
       document.querySelector('#counter').innerText++;
       result = null;
-    }, 300);
+    }, 100);
   };
 })();
 
