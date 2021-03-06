@@ -1,9 +1,7 @@
 body {
-  background-color: black;
   margin: 0 auto;
   max-width: 600px;
   padding: 20px;
-  color: white;
   min-height: 100vh;
 }
 
