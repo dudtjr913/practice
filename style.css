@@ -54,3 +54,38 @@ label {
 .hide {
   display: none;
 }
+
+.box {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.blue:hover {
+  width: 300px;
+}
+
+.green {
+  background-color: green;
+}
+
+.transX120 {
+  transform: translateX(120px);
+}
+
+.v-none {
+  visibility: visible;
+}
+
+.v-hidden {
+  visibility: hidden;
+}
