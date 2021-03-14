@@ -1,3 +1,3 @@
-document.querySelector('#click-btn').addEventListener('click', () => {
-  document.querySelector('.blue').classList.toggle('v-hidden');
+window.addEventListener('scroll', (e) => {
+  console.log(e);
 });
