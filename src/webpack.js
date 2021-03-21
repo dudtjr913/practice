@@ -1,3 +1,4 @@
+import '../style.css';
 class Webpack {
   test() {
     console.log('test');
