@@ -1,7 +1,9 @@
-document.querySelector('.container').addEventListener('change', (e) => {
-  console.log(e.target.value);
-});
-
-document.querySelector('.container').addEventListener('change', (e) => {
-  console.log(e.target.value);
-});
+document.querySelector('#fruits').addEventListener(
+  'click',
+  (e) => {
+    console.log(e.eventPhase);
+    console.log(e.target);
+    console.log(e.currentTarget);
+  },
+  true,
+);
