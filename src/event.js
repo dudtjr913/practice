@@ -11,7 +11,6 @@ document.querySelector('#apple').addEventListener('click', (e) => {
   console.log(e);
 });
 
-document.querySelector('#input').addEventListener('keyup', (e) => {
-  if (e.keyCode === 229) return;
-  console.log(e.target.value);
+document.querySelector('#input').addEventListener('input', (e) => {
+  console.dir(e.target);
 });
