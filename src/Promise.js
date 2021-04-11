@@ -115,13 +115,13 @@ Promise.race([showUserInfo(), timeout(100)]).then((displayed) => {
 
 async function foo() {
   try {
-    return waitAndMaybeReject();
+    waitAndMaybeReject();
   } catch (e) {
     return 'caught';
   }
 }
 
-console.log(foo());
+foo();
 console.log('why?'); */
 
 /*  function* aa() {
@@ -182,20 +182,46 @@ function foo3() {
   console.log('foo3', await foo3()); // 1s delay -> console.log
 })();
 
-console.log('aa'); */
-
+console.log('aa');
+ */
 // await은 무조건 then으로 한번 기다린 후에 실행하는 듯 - 함수 호출자를 넘겨줌
 
-function testa(a) {
+/* function testa(a) {
   return new Promise((resolve, reject) => {
-    console.log(a);
-    resolve();
+    console.log('?', a);
+    resolve(a);
   });
 }
+
 async function doIt() {
-  await testa('1');
-  await testa('2');
+  console.log(testa('1'));
+  console.log(Promise.resolve('bb'));
+  console.log(await testa('2'));
 }
 
 doIt();
-console.log('aa');
+console.log('aa'); */
+
+/* const async = (generatorFunc) => {
+  const generator = generatorFunc();
+
+  const onResolved = (arg) => {
+    const result = generator.next(arg);
+    console.log(result);
+    return result.done
+      ? result.value
+      : result.value.then((res) => {
+          console.log(res);
+          return onResolved(res);
+        });
+  };
+
+  return onResolved;
+};
+
+async(function* fetchTodo() {
+  const url = 'https://jsonplaceholder.typicode.com/todos/1';
+  const response = yield fetch(url);
+  const todo = yield response.json();
+})();
+ */
