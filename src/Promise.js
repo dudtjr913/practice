@@ -182,8 +182,8 @@ function foo3() {
   console.log('foo3', await foo3()); // 1s delay -> console.log
 })();
 
-console.log('aa');
- */
+console.log('aa'); */
+
 // await은 무조건 then으로 한번 기다린 후에 실행하는 듯 - 함수 호출자를 넘겨줌
 
 /* function testa(a) {
@@ -225,3 +225,36 @@ async(function* fetchTodo() {
   const todo = yield response.json();
 })();
  */
+
+async function waitFunction() {
+  await new Promise((resolve, reject) =>
+    setTimeout(() => {
+      console.log('promise');
+      resolve();
+    }, 1000),
+  );
+  console.log('hey');
+  return 'yay';
+}
+// 1. 그냥 실행
+async function foo1() {
+  try {
+    waitFunction();
+  } catch (e) {
+    return 'caught';
+  }
+}
+// 3. return 실행
+async function foo3() {
+  try {
+    return waitFunction();
+  } catch (e) {
+    return 'caught';
+  }
+}
+(async () => {
+  console.log('foo1', await foo1());
+  console.log('foo3', await foo3());
+})();
+
+console.log('aa');
