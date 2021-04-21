@@ -7,4 +7,3 @@ class Webpack {
 
 const webpack = new Webpack();
 webpack.test();
-console.log('aaddszzxx');

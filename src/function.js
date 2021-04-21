@@ -24,3 +24,22 @@ const tableOf22 = convertCurry(genericTable)(2);
 
 tableOf2(4);
 tableOf22(4);
+
+const multiply1 = function (num) {
+  return num * 2;
+};
+
+function multiply2(num) {
+  return num * 2;
+}
+
+function calculate(f, arr) {
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    result[i] = f(arr[i]);
+  }
+  return result;
+}
+
+console.log(calculate(multiply1, [1, 2, 3])); // [2,4,6]
+console.log(calculate(multiply2, [1, 2, 3])); // [2,4,6]
