@@ -16,4 +16,17 @@ document.querySelector('#input').addEventListener('input', (e) => {
 });
  */
 
-document.querySelector('form').addEventListener('change', (e) => console.log(e.target.value));
+document.querySelector('.one').addEventListener('click', (e) => {
+  console.log(e.target.innerText);
+});
+
+document.querySelector('.two > span:nth-child(2)').addEventListener('click', (e) => {
+  e.stopImmediatePropagation();
+});
+
+document.querySelectorAll('.two > span').forEach((elem) => {
+  elem.addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log(e.target.innerText);
+  });
+});
