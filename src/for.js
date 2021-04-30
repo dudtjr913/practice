@@ -15,14 +15,8 @@ for (var index = 0; index < crews.length - 1; ++index) {
 findCrew(crews[index].id, (v) => console.log(v));
 findCrew(crews[index].id, (v) => console.log(v));
 
-// {id: 2, name: "cheffe"} "ditto"
-// {id: 2, name: "cheffe"} "cheffe"
-
 for (let crew of crews) {
   findCrew(crew.id, (name) => {
     console.log(crew, name);
   });
 }
-
-// {id: 1, name: "ditto"} "ditto"
-// {id: 2, name: "cheffe"} "cheffe"
