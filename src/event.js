@@ -16,7 +16,7 @@ document.querySelector('#input').addEventListener('input', (e) => {
 });
  */
 
-document.querySelector('.one').addEventListener('click', (e) => {
+/* document.querySelector('.one').addEventListener('click', (e) => {
   console.log(e.target.innerText);
 });
 
@@ -30,3 +30,10 @@ document.querySelectorAll('.two > span').forEach((elem) => {
     console.log(e.target.innerText);
   });
 });
+ */
+
+const handleButton = () => {
+  console.log(this);
+};
+
+document.querySelector('button').addEventListener('click', () => handleButton());
