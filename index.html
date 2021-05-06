@@ -3,11 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="subway-map.css" />
-    <script src="./src/event.js" defer></script>
+    <link rel="stylesheet" href="inputStyle.css" />
+    <script src="./src/index.js" defer></script>
     <title>Document</title>
   </head>
   <body>
-    <button>클릭</button>
+    <div class="quantity">
+      <input type="number" min="1" max="9" step="1" value="1" />
+      <div class="quantity-nav">
+        <div class="quantity-button quantity-up">+</div>
+        <div class="quantity-button quantity-down">-</div>
+      </div>
+    </div>
   </body>
 </html>
