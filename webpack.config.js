@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/webpack.js', // 없으면 자동으로 index.js를 찾는 듯
+  entry: './src/redux/index.js', // 없으면 자동으로 index.js를 찾는 듯
   output: {
     path: path.resolve(__dirname, 'dist'), // 없으면 자동으로 /dist로 지정해주는 듯
     filename: 'main.js', // 없으면 자동으로 main.js로 해주는 듯
@@ -33,4 +33,8 @@ module.exports = {
       template: './index.html',
     }),
   ],
+  devServer: {
+    hot: true,
+    open: true,
+  },
 };
