@@ -5,17 +5,14 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // import thunk from 'redux-thunk';
 
 function createThunkMiddleware(extraArgument) {
-  console.log(extraArgument, 'extraArgument');
   return ({ dispatch, getState }) => {
-    console.log(dispatch, getState, 'dispatch, getState');
     return (next) => {
-      console.log(next, 'next');
       return (action) => {
-        console.log(action, 'action');
         if (typeof action === 'function') {
-          console.log(getState);
+          console.log(action, 'action');
           return action(dispatch, getState, extraArgument);
         }
+        console.log('next', next);
 
         return next(action);
       };
@@ -37,7 +34,11 @@ upButton.addEventListener('click', () => {
 });
 
 downButton.addEventListener('click', () => {
-  store.dispatch((dispatch) => console.log('dispatch', dispatch));
+  store.dispatch((a, b) =>
+    setTimeout(() => {
+      console.log(a, b());
+    }, 1000),
+  );
 });
 
 store.subscribe(() => {
