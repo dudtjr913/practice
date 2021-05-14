@@ -1,27 +1,31 @@
-export const asd = {
-  type: 'ASD',
+const INCREMENT = 'INCREMENT';
+const DECREMENT = 'DECREMENT';
+
+export const increment = {
+  type: INCREMENT,
 };
 
-export const zxc = {
-  type: 'ZXC',
+export const decrement = () => {
+  return {
+    type: DECREMENT,
+  };
 };
 
-const dummyData = {
-  a: 1,
-  b: 2,
+const initialState = {
+  a: 0,
 };
 
-const dummy = (state = dummyData, action) => {
+const dummy = (state = initialState, action) => {
   switch (action.type) {
-    case 'INCREMENT':
+    case INCREMENT:
       return {
         ...state,
         a: state.a + 1,
       };
-    case 'ZXC':
+    case DECREMENT:
       return {
         ...state,
-        b: state.b - 1,
+        a: state.a - 1,
       };
     default:
       return state;

@@ -34,13 +34,10 @@ upButton.addEventListener('click', () => {
 });
 
 downButton.addEventListener('click', () => {
-  store.dispatch((a, b) =>
-    setTimeout(() => {
-      console.log(a, b());
-    }, 1000),
-  );
+  store.dispatch(increment);
 });
 
 store.subscribe(() => {
   counter.innerText = store.getState().counter.count;
+  console.log(store.getState());
 });
