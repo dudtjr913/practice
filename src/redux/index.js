@@ -39,5 +39,4 @@ downButton.addEventListener('click', () => {
 
 store.subscribe(() => {
   counter.innerText = store.getState().counter.count;
-  console.log(store.getState());
 });
