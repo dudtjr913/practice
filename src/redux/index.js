@@ -3,9 +3,18 @@ import rootReducer from './rootReducer';
 import { increment, decrement } from './counter';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { myStore } from './myredux';
+import CodeMirror from 'codemirror';
 // import thunk from 'redux-thunk';
 
-const counter = document.querySelector('.counter');
+const textArea = document.querySelector('.codemirror');
+
+console.log(textArea);
+
+const codemirror = CodeMirror.fromTextArea(textArea);
+
+console.log(codemirror);
+
+/* const counter = document.querySelector('.counter');
 const upButton = document.querySelector('.increment');
 const downButton = document.querySelector('.decrement');
 

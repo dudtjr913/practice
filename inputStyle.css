@@ -1,4 +1,8 @@
-.quantity {
+.inputWrapper:focus-within {
+  color: green;
+}
+
+/* .quantity {
   position: relative;
 }
 
@@ -61,3 +65,4 @@ input[type='number'] {
   bottom: -1px;
   height: 50%;
 }
+ */
