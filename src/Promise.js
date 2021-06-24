@@ -1,4 +1,4 @@
-const getPromiseResult = (url) => {
+/* const getPromiseResult = (url) => {
   const result = fetch(url);
   return result
     .then((a) => {
@@ -26,7 +26,7 @@ const practicePromise = (url) => {
       return;
     }
   });
-};
+}; */
 
 /* const func = async () => {
   console.log(await getPromiseResult('http://jsonplaceholder.typicode.com'));
@@ -36,7 +36,7 @@ const practicePromise = (url) => {
 
 /* func(); */
 
-const asyncAwait = async () => {
+/* const asyncAwait = async () => {
   const a = await 1;
   return a;
 };
@@ -47,7 +47,7 @@ const test = async () => {
   const third = await new Promise((resolve) => setTimeout(() => resolve(3), 1000));
 
   console.log(first, second, third);
-};
+}; */
 
 /* const promiseAll = async () => {
   const res = await Promise.all([
@@ -226,7 +226,7 @@ async(function* fetchTodo() {
 })();
  */
 
-async function waitFunction() {
+/* async function waitFunction() {
   await new Promise((resolve, reject) =>
     setTimeout(() => {
       console.log('promise');
@@ -258,3 +258,64 @@ async function foo3() {
 })();
 
 console.log('aa');
+ */
+
+class MyPromise {
+  constructor(promise) {
+    this.state = 'pending';
+    this.subscribers = [];
+    this.value = '';
+    this.promise = promise(this.resolve.bind(this), this.reject.bind(this));
+  }
+
+  resolve(value) {
+    if (value instanceof MyPromise) {
+      value.then((innerValue) => {
+        this.state = 'resolved';
+        this.value = innerValue;
+        this.subscribers.forEach((subscriber) => subscriber());
+      });
+    }
+    this.state = 'resolved';
+    this.value = value;
+    this.subscribers.forEach((subscriber) => subscriber());
+  }
+
+  reject(value) {
+    console.log(value);
+  }
+
+  then(callback) {
+    if (this.state === 'resolved') {
+      return new MyPromise((resolve) => resolve(callback(this.value)));
+    }
+
+    if (this.state === 'pending') {
+      return new MyPromise((resolve) => {
+        this.subscribers.push(() => resolve(callback(this.value)));
+      });
+    }
+
+    return this;
+  }
+
+  catch() {
+    console.log('catch');
+  }
+}
+
+const promise = (url) => {
+  return new MyPromise((resolve) => {
+    setTimeout(() => resolve(1), 1000);
+  });
+};
+
+promise()
+  .then((res) => console.log(res))
+  .then(() => {
+    return new MyPromise((resolve) => {
+      setTimeout(() => resolve(2), 1000);
+    }).then((res) => console.log(res));
+  });
+
+console.log('먼저실행');
