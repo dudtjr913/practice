@@ -1,0 +1,24 @@
+name: create-preview-link
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Comment PR
+      uses: actions/github-script@v6
+      with:
+        script: |
+            const comment = `preview 링크 👉 https://frontend-internal-admin.alpha.toss.bz?owner=${context.repo.owner}&repo=${context.repo.repo}&pull_number=${context.issue.number}`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
