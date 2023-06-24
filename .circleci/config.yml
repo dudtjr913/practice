@@ -1,0 +1,39 @@
+version: 2.1
+
+executors:
+  yarn:
+    docker:
+      - image: cimg/node:18.15.0
+
+jobs:
+  build:
+    executor: yarn
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+
+      - run:
+          name: build
+          command: yarn build
+
+      - save_cache:
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - main
