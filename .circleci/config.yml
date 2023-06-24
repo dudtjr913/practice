@@ -20,9 +20,8 @@ jobs:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
 
-      # 빌드 및 테스트 등 필요한 단계를 추가합니다
-
-      - build:
+      - run:
+          name: build
           command: yarn build
 
       - save_cache:
